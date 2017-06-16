@@ -1,0 +1,13 @@
+{
+  "welcome": "Welkom in de {{title}}!!",
+  "language": "Taal",
+  "dashboard": "overzicht",
+  "runs": "Runs",
+  "users": "Gebruikers",
+  "organizations": "Organizaties",
+  "workflows": "Workflows",
+  "ingest models": "Ingest Modellen",
+  "representations": "Representaties",
+  "access rights": "Toegangsrechten",
+  "retention periods": "Bewaartermijnen"
+}

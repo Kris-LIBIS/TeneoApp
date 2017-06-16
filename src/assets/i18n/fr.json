@@ -1,0 +1,13 @@
+{
+  "welcome": "Bienvenue chez {{title}}!!",
+  "language": "Langue",
+  "dashboard": "tableau de bord",
+  "runs": "Runs",
+  "users": "Users",
+  "organizations": "Organizations",
+  "workflows": "Workflows",
+  "ingest models": "Ingest Models",
+  "representations": "Representations",
+  "access rights": "Access Rights",
+  "retention periods": "Retention Periods"
+}
