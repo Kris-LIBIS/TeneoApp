@@ -1,7 +1,2 @@
-<!--The whole content below can be removed with the new code.-->
-<div style="text-align:center">
-  <h1>
-    {{ 'welcome' | translate:app }}
-  </h1>
-</div>
+<p-growl life="2000" [value]="messages | async" (onClose)="removeMessage($event)"></p-growl>
 <router-outlet></router-outlet>

@@ -1,3 +1,24 @@
-<p>
-  login works!
-</p>
+<div class="login-page">
+  <md-card>
+    <md-card-title>
+      <img src="../../assets/images/teneo.png" class="logo"/>
+    </md-card-title>
+    <md-card-content>
+      <table align="center">
+        <tr>
+          <md-input-container>
+            <input #name mdInput placeholder="User name" name="name">
+          </md-input-container>
+        </tr>
+        <tr>
+          <md-input-container>
+            <input #password mdInput placeholder="Password" name="password" type="password">
+          </md-input-container>
+        </tr>
+      </table>
+    </md-card-content>
+    <md-card-actions>
+      <button md-button (click)="onSubmit(name, password)">LOG IN</button>
+    </md-card-actions>
+  </md-card>
+</div>
