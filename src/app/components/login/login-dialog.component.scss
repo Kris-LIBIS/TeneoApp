@@ -1,0 +1,16 @@
+$topnav-background-color: #222;
+$form-width: 500px;
+$logo-width: $form-width/2;
+
+.mat-input-container {
+  width: $form-width;
+}
+
+.logo {
+  width: $logo-width;
+}
+
+button {
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+}

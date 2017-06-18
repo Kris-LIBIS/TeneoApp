@@ -4,6 +4,7 @@ import { IAuthorizationRequest, ITokenData } from '../../services/authorization/
 export const AUTH_REQUEST = '[Authorization] request';
 export const AUTH_SUCCESS = '[Authorization] success';
 export const AUTH_FAILURE = '[Authorization] failure';
+export const AUTH_LOGOUT = '[Authorization] logout';
 
 export class AuthRequestAction implements Action {
   readonly type = AUTH_REQUEST;
@@ -23,4 +24,8 @@ export class AuthFailureAction implements Action {
   constructor(public payload: ITokenData) {}
 }
 
-export type AuthActions = AuthRequestAction | AuthSuccessAction | AuthFailureAction;
+export class AuthLogoutAction implements Action {
+  readonly type = AUTH_LOGOUT;
+}
+
+export type AuthActions = AuthRequestAction | AuthSuccessAction | AuthFailureAction | AuthLogoutAction;

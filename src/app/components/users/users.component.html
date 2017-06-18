@@ -1,0 +1,9 @@
+<md-card>
+  <teneo-user-list [users]="users | async" (editUserEvent)="editUser($event)" (deleteUserEvent)="deleteUser($event)"></teneo-user-list>
+</md-card>
+<md-card>
+  <md-card-header>
+    <md-card-title>Edit user info:</md-card-title>
+  </md-card-header>
+  <teneo-user-detail></teneo-user-detail>
+</md-card>

@@ -1,0 +1,20 @@
+<h2 align="center" md-dialog-title><img src="../../../assets/images/teneo.png" class="logo"/></h2>
+<md-dialog-content>
+  <table align="center">
+    <tr>
+      <md-input-container>
+        <input #name mdInput placeholder="User name" name="name">
+      </md-input-container>
+    </tr>
+    <tr>
+      <md-input-container>
+        <input #password mdInput placeholder="Password" name="password" type="password">
+      </md-input-container>
+    </tr>
+    <tr>
+    </tr>
+  </table>
+</md-dialog-content>
+<md-dialog-actions align="center">
+  <button md-button (click)="onSubmit(name.value, password.value)">LOG IN</button>
+</md-dialog-actions>

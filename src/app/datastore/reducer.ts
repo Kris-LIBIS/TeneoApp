@@ -6,11 +6,15 @@ import { environment } from '../../environments/environment';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import { authReducer, IAuthState, INITIAL_AUTH_STATE } from './authorization/reducer';
 import { IGuiState, INITIAL_GUI_STATE, guiReducer } from './gui/reducer';
+import { INITIAL_USERS_STATE, IUsersState, usersReducer } from './users/reducer';
+import { INITIAL_ORGS_STATE, IOrganizationsState, orgsReducer } from './organizations/reducer';
 
 export interface IAppState {
   router: RouterState;
   authorization: IAuthState;
   gui:IGuiState;
+  users: IUsersState;
+  organizations: IOrganizationsState;
 }
 
 const INITIAL_STATE: IAppState = {
@@ -18,13 +22,17 @@ const INITIAL_STATE: IAppState = {
     path: '/login'
   },
   authorization: INITIAL_AUTH_STATE,
-  gui: INITIAL_GUI_STATE
+  gui: INITIAL_GUI_STATE,
+  users: INITIAL_USERS_STATE,
+  organizations: INITIAL_ORGS_STATE
 };
 
 const reducers = {
   router: routerReducer,
   authorization: authReducer,
-  gui: guiReducer
+  gui: guiReducer,
+  users: usersReducer,
+  organizations: orgsReducer
 };
 
 const localStorageConfig: LocalStorageConfig = {

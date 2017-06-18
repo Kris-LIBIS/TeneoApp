@@ -1,0 +1,23 @@
+<p-dataTable [value]="users">
+  <p-column field="name" header="Name" styleClass="column"></p-column>
+  <p-column field="role" header="Role" styleClass="column"></p-column>
+  <p-column field="organizations" header="Organizations" styleClass="column">
+    <ng-template let-col let-user="rowData" pTemplate="body">
+      <span>{{orgList(user)}}</span>
+    </ng-template>
+  </p-column>
+  <p-column styleClass="column column-button">
+    <ng-template pTemplate="header">
+      <!--<a (click)="addUser()"><md-icon class="icon-green">add_box</md-icon></a>-->
+      <button md-mini-fab color="primary" (click)="addUser()"><md-icon class="icon-white">add</md-icon></button>
+    </ng-template>
+    <ng-template let-col let-user="rowData" pTemplate="body">
+      <span>
+        <!--<a (click)="editUserEvent.next(user)"><md-icon class="icon-blue">create</md-icon></a>-->
+        <!--<a (click)="deleteUserEvent.next(user)"><md-icon class="icon-red">delete</md-icon></a>-->
+        <button md-mini-fab (click)="editUserEvent.next(user)" color="primary"><md-icon class="icon-white">create</md-icon></button>
+        <button md-mini-fab (click)="deleteUserEvent.next(user)"><md-icon class="icon-white">delete</md-icon></button>
+      </span>
+    </ng-template>
+  </p-column>
+</p-dataTable>

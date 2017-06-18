@@ -1,2 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
+@import './theme';
+
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome";
+
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+  // Helps fonts on OSX looks more consistent with other systems
+  // Isn't currently in button styles due to performance concerns
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.sb-error {
+  background-color: #ff3852;
+}
+
+.sb-success {
+  background-color: #2fad1e;
+}
+
+.color-green {
+  color: green;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-blue {
+  color: blue;
+}
+.color-white {
+  color: white;
+}

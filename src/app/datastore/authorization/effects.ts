@@ -11,6 +11,7 @@ import { go } from '@ngrx/router-store'
 export class AuthEffects {
   constructor(private action$: Actions, private api: AuthorizationService) {}
 
+  // noinspection JSUnusedGlobalSymbols
   @Effect()
   load$: Observable<Action> = this.action$.ofType(AUTH_REQUEST).switchMap((action) => {
     const result$: Observable<ITokenData> = this.api.authenticate(action.payload);
@@ -19,9 +20,11 @@ export class AuthEffects {
       .catch((err) => of(new AuthFailureAction({error: {type: 'Error', message: err.toString()}})));
   });
 
+  // noinspection JSUnusedGlobalSymbols
   @Effect()
-  authSuccess$: Observable<Action> = this.action$.ofType(AUTH_SUCCESS).map(() => go('/'));
+  authSuccess$: Observable<Action> = this.action$.ofType(AUTH_SUCCESS).map(() => go('/dashboard'));
 
+  // noinspection JSUnusedGlobalSymbols
   @Effect()
-  authFailure$: Observable<Action> = this.action$.ofType(AUTH_FAILURE).map(() => go('/login'));
+  authFailure$: Observable<Action> = this.action$.ofType(AUTH_FAILURE).map(() => go('/home'));
 }
