@@ -11,7 +11,7 @@ export class DbUser extends JsonApiModel {
   role: string;
 
   @Attribute()
-  organizations: Array<{id: string, name: string}>;
+  organization_ids: Array<string>;
 }
 
 @JsonApiModelConfig({
@@ -31,7 +31,7 @@ export class DbOrganization extends JsonApiModel {
   ingest_dir: string;
 
   @Attribute()
-  producer: { id: string, agent: string, password: string }
+  producer: { id: string, agent?: string, password: string };
 
   producerName() {
     return this.producer.agent;
@@ -41,6 +41,6 @@ export class DbOrganization extends JsonApiModel {
   created_at: Date;
 
   @Attribute()
-  users: Array<any>;
+  user_ids: Array<string>;
 
 }

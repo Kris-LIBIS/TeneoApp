@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
   }
 
   orgList(user: IUserInfo) {
-    return user.organizations.map(org => org.name).join(',');
+    //return user.organizations.map(org => org.name).join(',');
   }
 
   addUser() {

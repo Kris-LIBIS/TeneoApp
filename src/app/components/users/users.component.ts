@@ -15,8 +15,8 @@ import { OrganizationsLoadRequestAction } from '../../datastore/organizations/ac
 export class UsersComponent implements OnInit {
 
   users: Observable<IUserInfo[]>;
-  selectedUser: Observable<IUserInfo>;
   organizations: Observable<IOrganizationInfo[]>;
+  lastUpdate: Observable<number>;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -24,15 +24,25 @@ export class UsersComponent implements OnInit {
     this._store.dispatch(new UsersLoadRequestAction());
     this._store.dispatch(new OrganizationsLoadRequestAction());
     this.users = this._store.select('users').map((state: IUsersState) => state.users);
-    this.selectedUser = this._store.select('users').map((state: IUsersState) => state.selected);
+    this.lastUpdate = this._store.select('users').map((state: IUsersState) => state.lastUpdate);
     this.organizations = this._store.select('organizations').map((state: IOrganizationsState) => state.organizations);
   }
 
-  editUser(user: IUserInfo) {
-    // this._store.dispatch(new UserSelectAction(user));
+  refresh() {
+    this._store.dispatch(new UsersLoadRequestAction(true));
   }
 
-  deleteUser(user: IUserInfo) {
+  userSaved(user: IUserInfo) {
+    if (user.id) {
+      // update user in store
+      // this._store.dispatch(new UserUpdateAction(user));
+    } else {
+      // add user to store
+      // this._store.dispatch(new UserAddAction(user));
+    }
+  }
+
+  userDeleted(user: IUserInfo) {
     // this._store.dispatch(new UserDeleteAction(user));
   }
 

@@ -12,11 +12,11 @@ import { of } from 'rxjs/observable/of';
 
 import { IngesterApiService } from '../../services/ingester/ingester-api.service';
 import { ORGS_LOAD_REQUEST, OrganizationsLoadFailureAction, OrganizationsLoadSuccessAction } from './actions';
-import { DbUser } from '../../services/ingester/models';
+import { DbOrganization } from '../../services/ingester/models';
 
 
 @Injectable()
-export class UserEffects {
+export class OrganizationEffects {
 
   constructor(private action$: Actions, private api: IngesterApiService) {
   }
@@ -25,10 +25,14 @@ export class UserEffects {
   @Effect()
   load$: Observable<Action> = this.action$.ofType(ORGS_LOAD_REQUEST).switchMap(() => {
     const nextLoad$ = this.action$.ofType(ORGS_LOAD_REQUEST).skip(1);
-    const users$: Observable<DbUser[]> = this.api.getObjectList(DbUser);
-    return users$.takeUntil(nextLoad$)
-      .map((users) => new OrganizationsLoadSuccessAction(users))
-      .catch((err) => of(new OrganizationsLoadFailureAction({error: {type: 'Error', message: err.toString()}})));
+    const orgs$: Observable<DbOrganization[]> = this.api.getObjectList(DbOrganization);
+    return orgs$.takeUntil(nextLoad$)
+      .map((orgs) => {
+        return new OrganizationsLoadSuccessAction(orgs);
+      })
+      .catch((err) => {
+        return of(new OrganizationsLoadFailureAction({error: {type: 'Error', message: err.toString()}}))
+      });
   });
 
 }

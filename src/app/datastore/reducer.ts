@@ -12,7 +12,7 @@ import { INITIAL_ORGS_STATE, IOrganizationsState, orgsReducer } from './organiza
 export interface IAppState {
   router: RouterState;
   authorization: IAuthState;
-  gui:IGuiState;
+  gui: IGuiState;
   users: IUsersState;
   organizations: IOrganizationsState;
 }
@@ -42,7 +42,8 @@ const localStorageConfig: LocalStorageConfig = {
   storageKeySerializer: (key) => `teneo_${key}`
 };
 
-const devReducer: ActionReducer<IAppState> = compose(storeFreeze, localStorageSync(localStorageConfig), combineReducers)(reducers);
+//const devReducer: ActionReducer<IAppState> = compose(storeFreeze, localStorageSync(localStorageConfig), combineReducers)(reducers);
+const devReducer: ActionReducer<IAppState> = compose(localStorageSync(localStorageConfig), combineReducers)(reducers);
 const prdReducer: ActionReducer<IAppState> = compose(localStorageSync(localStorageConfig), combineReducers)(reducers);
 
 export function reducer(state: IAppState = INITIAL_STATE, action: any) {

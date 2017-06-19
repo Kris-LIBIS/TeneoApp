@@ -33,6 +33,8 @@ import { MdNativeDateModule } from '@angular/material';
 import { StyleModule } from '@angular/material';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   imports: [
@@ -69,7 +71,9 @@ import { DataTableModule } from 'primeng/components/datatable/datatable';
     MdNativeDateModule,
     StyleModule,
     AngularFontAwesomeModule,
-    DataTableModule
+    DataTableModule,
+    FlexLayoutModule,
+    MomentModule
   ],
   declarations: []
 })

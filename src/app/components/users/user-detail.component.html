@@ -1,3 +1,45 @@
-<p>
-  user-detail works!
-</p>
+<md-card>
+
+  <form #userForm="ngForm">
+
+    <md-card-content>
+
+      <md-input-container class="input-field input-main">
+        <input mdInput [disabled]="readonly" title="Name" name="name" [(ngModel)]="values.name" required color="primary" >
+      </md-input-container>
+
+      <md-select class="input-field" [disabled]="readonly" placeholder="select role" title="Role" name="role"
+                 [(ngModel)]="values.role" required>
+        <md-option value="submitter">Submitter</md-option>
+        <md-option value="admin">Administrator</md-option>
+      </md-select>
+
+      <md-select class="input-field" [disabled]="readonly" placeholder="select organizations" title="Organizations" name="organizations"
+                 [(ngModel)]="values.organization_ids" multiple="true" mdTextareAutosize>
+        <md-option *ngFor="let org of organizations" [value]="org.id">{{org.name}}</md-option>
+      </md-select>
+      <!--<md-input-container class="input-field">-->
+        <!--<input mdInput [disabled]="readonly" placeholder="select organizations" name="organizations"-->
+               <!--[(ngModel)]="values['organizations']">-->
+      <!--</md-input-container>-->
+
+    </md-card-content>
+
+    <md-card-footer align="right">
+
+      <button md-mini-fab *ngIf="readonly" color="primary" (click)="edit()">
+        <md-icon>edit</md-icon>
+      </button>
+
+      <button md-mini-fab *ngIf="!readonly" color="primary" (click)="submit()">
+        <md-icon>save</md-icon>
+      </button>
+      <button md-mini-fab *ngIf="!readonly" color="warn" (click)="undo()">
+        <md-icon>cancel</md-icon>
+      </button>
+
+    </md-card-footer>
+
+  </form>
+
+</md-card>

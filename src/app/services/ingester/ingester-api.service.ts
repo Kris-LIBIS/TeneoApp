@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { JsonApiDatastore, JsonApiDatastoreConfig, JsonApiModel, ModelType } from 'ng-jsonapi';
 import { environment } from '../../../environments/environment';
-import { DbUser } from './models';
+import { DbOrganization, DbUser } from './models';
 import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
 @JsonApiDatastoreConfig({
   models: {
-    users: DbUser
+    users: DbUser,
+    organizations: DbOrganization
   }
 })
 export class IngesterApiService extends JsonApiDatastore {
