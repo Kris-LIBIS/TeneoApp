@@ -6,6 +6,7 @@ export const ORGS_LOAD_FAILURE = '[Organizations] Load failure';
 
 export class OrganizationsLoadRequestAction implements Action {
   readonly type = ORGS_LOAD_REQUEST;
+  constructor(public payload: boolean = false) {}
 }
 
 export class OrganizationsLoadSuccessAction implements Action {

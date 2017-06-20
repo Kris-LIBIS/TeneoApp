@@ -3,6 +3,9 @@ import { IUserInfo, newUserInfo } from '../../datastore/users/reducer';
 
 import * as _ from 'lodash';
 import { IOrganizationInfo } from "../../datastore/organizations/reducer";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { SelectItem } from 'primeng/primeng';
 
 @Component({
   moduleId: module.id,
@@ -13,45 +16,86 @@ import { IOrganizationInfo } from "../../datastore/organizations/reducer";
 export class UserDetailComponent implements OnInit {
 
   protected readonly = true;
-  protected values: IUserInfo;
+  protected userData: IUserInfo;
+  // protected orgOptions: SelectItem[]
+  // @Input() organizations: Observable<IOrganizationInfo[]>;
 
-  @Input() user: IUserInfo;
+  @Input()
+  set user(info) {
+    if(info) {
+      this.userForm.patchValue(info);
+      this.userData = info;
+    }
+  }
+
   @Input() organizations: IOrganizationInfo[];
+
   @Output() userSaved: EventEmitter<IUserInfo> = new EventEmitter();
 
-  constructor() { }
+  userForm: FormGroup;
+  // = new FormGroup({
+  //   name: new FormControl(),
+  //   role: new FormControl(),
+  //   organzations: new FormControl()
+  // });
 
+
+  constructor(private _fb: FormBuilder) {
+    this.createForm();
+  }
   ngOnInit() {
+    // this.orgOptions = this.organizations.map(org => { return {label: org.name, value: org.id};});
     this.getValues();
   }
 
+  // protected
+  // get orgOptions: SelectItem[] {
+  //   return this.organizations.map((org) => { return {label: org.name, value: org.id};});
+  // }
+
+  private createForm() {
+    this.userForm = this._fb.group({
+      id: '',
+      name: ['' , Validators.required],
+      role: ['' , Validators.required],
+      organization_ids: [],
+    });
+    this.userForm.disable();
+}
+
   private getValues() {
-    if (this.user) {
-      this.values = newUserInfo();
-      _.assign(this.values, this.user);
+    if (this.userData) {
+      this.userForm.patchValue(this.userData);
     }
   }
 
   private setValues() {
-    if (!this.user) {
-      this.user = newUserInfo();
-    }
-    _.assign(this.user, this.values);
+    console.log(this.userForm.getRawValue());
+  }
+
+  private setReadonly() {
+    this.readonly = true;
+    this.userForm.disable();
+  }
+
+  private unsetReadonly() {
+    this.readonly = false;
+    this.userForm.enable();
   }
 
   edit() {
-    this.readonly = false;
+    this.unsetReadonly();
     this.getValues();
   }
 
   submit() {
-    this.readonly = true;
+    this.setReadonly();
     this.setValues();
-    this.userSaved.next(this.user);
+    this.userSaved.next(this.userData);
   }
 
   undo() {
-    this.readonly = true;
+    this.setReadonly();
     this.getValues();
   }
 

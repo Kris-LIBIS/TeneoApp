@@ -41,7 +41,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "ng-jsonapi": "^0.0.3",
+    "ng-jsonapi": "^0.0.4",
     "ngrx-store-freeze": "^0.1.9",
     "ngrx-store-localstorage": "^0.1.8",
     "primeng": "^4.1.0-rc.1",

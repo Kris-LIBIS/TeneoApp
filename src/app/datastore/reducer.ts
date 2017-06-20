@@ -42,8 +42,8 @@ const localStorageConfig: LocalStorageConfig = {
   storageKeySerializer: (key) => `teneo_${key}`
 };
 
-//const devReducer: ActionReducer<IAppState> = compose(storeFreeze, localStorageSync(localStorageConfig), combineReducers)(reducers);
-const devReducer: ActionReducer<IAppState> = compose(localStorageSync(localStorageConfig), combineReducers)(reducers);
+const devReducer: ActionReducer<IAppState> = compose(storeFreeze, localStorageSync(localStorageConfig), combineReducers)(reducers);
+// const devReducer: ActionReducer<IAppState> = compose(localStorageSync(localStorageConfig), combineReducers)(reducers);
 const prdReducer: ActionReducer<IAppState> = compose(localStorageSync(localStorageConfig), combineReducers)(reducers);
 
 export function reducer(state: IAppState = INITIAL_STATE, action: any) {

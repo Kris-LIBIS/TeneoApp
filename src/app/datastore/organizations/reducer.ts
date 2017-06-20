@@ -1,7 +1,7 @@
 import * as ud from 'updeep';
 import * as _ from 'lodash';
+
 import { ORGS_LOAD_FAILURE, ORGS_LOAD_REQUEST, ORGS_LOAD_SUCCESS, OrganizationsActions } from './actions';
-import { IUserInfo } from '../users/reducer';
 import { DbOrganization } from '../../services/ingester/models';
 
 export interface IProducerInfo {
@@ -30,28 +30,23 @@ export function newOrganizationInfo(): IOrganizationInfo {
 
 export interface IOrganizationsState {
   organizations: IOrganizationInfo[];
-  selected: IOrganizationInfo;
   updating: boolean;
+  lastUpdate: number;
 }
 
 export const INITIAL_ORGS_STATE: IOrganizationsState = {
   organizations: [],
-  selected: newOrganizationInfo(),
-  updating: false
+  updating: false,
+  lastUpdate: 0
+
 };
 
 function dbOrganization2organizationInfo(org: DbOrganization): IOrganizationInfo {
   const result = newOrganizationInfo();
-  if (org.id) {
-    result.id = org.id;
-  }
-  if (org.name) {
-    result.name = org.name;
-  }
-  if (org.code) {
-    result.code = org.code;
-  }
-  result.user_ids = org.user_ids.map(user_id => user_id);
+  result.id = org.id;
+  result.name = org.name;
+  result.code = org.code;
+  result.user_ids = org.user_ids;
   return result;
 }
 
@@ -60,12 +55,16 @@ export function orgsReducer(state: IOrganizationsState = ud.freeze(INITIAL_ORGS_
   switch (action.type) {
 
     case ORGS_LOAD_REQUEST:
-      return updateState({updating: true});
+      if (action.payload || (!state.updating && (Date.now() - state.lastUpdate) > 600000)) {
+        return updateState({updating: true});
+      }
+      return state;
 
     case ORGS_LOAD_SUCCESS:
       return updateState({
         organizations: action.payload.map(org => dbOrganization2organizationInfo(org)),
-        updating: false
+        updating: false,
+        lastUpdate: Date.now()
       });
 
     case ORGS_LOAD_FAILURE:

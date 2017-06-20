@@ -1,4 +1,5 @@
 import * as ud from 'updeep';
+import * as _ from 'lodash';
 
 import { USERS_LOAD_FAILURE, USERS_LOAD_REQUEST, USERS_LOAD_SUCCESS, UsersActions } from './actions';
 import { DbUser } from '../../services/ingester/models';
@@ -33,16 +34,10 @@ export const INITIAL_USERS_STATE: IUsersState = {
 
 function dbUser2userInfo(user: DbUser): IUserInfo {
   const result = newUserInfo();
-  if (user.id) {
-    result.id = user.id;
-  }
-  if (user.name) {
-    result.name = user.name;
-  }
-  if (user.role) {
-    result.role = user.role;
-  }
-  result.organization_ids = user.organization_ids.map(org_id => org_id);
+  result.id = user.id;
+  result.name = user.name;
+  result.role = user.role;
+  result.organization_ids = user.organization_ids;
   return result;
 }
 
@@ -51,15 +46,10 @@ export function usersReducer(state: IUsersState = ud.freeze(INITIAL_USERS_STATE)
   switch (action.type) {
 
     case USERS_LOAD_REQUEST:
-      if (state.updating) {
-        return state;
+      if (action.payload || (!state.updating && (Date.now() - state.lastUpdate) > 600000)) {
+        return updateState({updating: true});
       }
-      if (!action.payload) {
-        if (state.lastUpdate > 0 && (Date.now() - state.lastUpdate) < 60000) {
-          return state;
-        }
-      }
-      return updateState({updating: true});
+      return state;
 
     case USERS_LOAD_SUCCESS:
       return updateState({

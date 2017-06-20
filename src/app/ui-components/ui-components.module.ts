@@ -35,6 +35,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MomentModule } from 'angular2-moment';
+import { MultiSelectModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { MomentModule } from 'angular2-moment';
     AngularFontAwesomeModule,
     DataTableModule,
     FlexLayoutModule,
-    MomentModule
+    MomentModule,
+    MultiSelectModule
   ],
   declarations: []
 })

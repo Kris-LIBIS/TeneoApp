@@ -39,8 +39,9 @@ import { IngesterApiService } from './services/ingester/ingester-api.service';
 import { UserEffects } from './datastore/users/effects';
 import { UserListComponent } from './components/users/user-list.component';
 import { UserDetailComponent } from './components/users/user-detail.component';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationEffects } from "./datastore/organizations/effects";
+import { UserOrganizationsComponent } from './components/users/user-organizations.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -64,12 +65,14 @@ export function HttpLoaderFactory(http: Http) {
     RetentionPeriodsComponent,
     UserListComponent,
     UserDetailComponent,
+    UserOrganizationsComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     AppRoutingModule,
     TranslateModule.forRoot({

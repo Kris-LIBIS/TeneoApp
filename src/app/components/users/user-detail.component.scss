@@ -1,16 +1,40 @@
 .mat-card {
-  margin: 5px;
-}
-
-.btn.save {
-  color: green;
-
-  md-icon {
-    color: white;
-  }
+  margin: 0.5em;
 }
 
 .input-field {
   width: 100%;
   margin-bottom: 1em;
+}
+
+.input-main {
+  font-weight: bold;
+  font-size: large;
+}
+
+.button-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.detail-card {
+  background-color: #f8f8f8;
+  padding: 1em;
+}
+
+.detail-empty-card {
+  background-color: #a0a0a0;
+}
+
+.detail-edit-card {
+  background-color: #a0b0d7;
+}
+
+.detail-content {
+  margin-bottom: 0;
+}
+
+.detail-actions {
+  margin-bottom: 0;
 }

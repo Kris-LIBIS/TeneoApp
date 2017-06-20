@@ -1,44 +1,68 @@
-<md-card>
+<md-card class="detail-card" [class.detail-edit-card]="!readonly" [class.detail-empty-card]="!userForm.controls['id'].value">
 
-  <form #userForm="ngForm">
+  <form novalidate [formGroup]="userForm">
 
-    <md-card-content>
+    <md-card-content class="detail-content">
 
-      <md-input-container class="input-field input-main">
-        <input mdInput [disabled]="readonly" title="Name" name="name" [(ngModel)]="values.name" required color="primary" >
+      <md-input-container class="input-field input-main" floatPlaceholder="never">
+        <input mdInput
+               placeholder="new user" title="Name"
+               formControlName="name"
+               required>
       </md-input-container>
 
-      <md-select class="input-field" [disabled]="readonly" placeholder="select role" title="Role" name="role"
-                 [(ngModel)]="values.role" required>
+      <md-select class="input-field"
+                 placeholder="select role" title="Role"
+                 formControlName="role"
+                 required>
         <md-option value="submitter">Submitter</md-option>
         <md-option value="admin">Administrator</md-option>
       </md-select>
 
-      <md-select class="input-field" [disabled]="readonly" placeholder="select organizations" title="Organizations" name="organizations"
-                 [(ngModel)]="values.organization_ids" multiple="true" mdTextareAutosize>
-        <md-option *ngFor="let org of organizations" [value]="org.id">{{org.name}}</md-option>
-      </md-select>
+      <!--<md-select *ngIf="!readonly" class="input-field"-->
+      <!--placeholder="select organizations" title="Organizations"-->
+      <!--FormControlName="organization_ids"-->
+      <!--multiple="true">-->
+      <!--<md-option *ngFor="let org of (organizations | async)" [value]="org.id">{{org.name}}</md-option>-->
+      <!--</md-select>-->
+
+      <teneo-user-organizations *ngIf="!readonly"
+                                class="input-field"
+                                [organizations]="organizations"
+                                [control]="userForm.controls['organization_ids']"
+      ></teneo-user-organizations>
+
       <!--<md-input-container class="input-field">-->
-        <!--<input mdInput [disabled]="readonly" placeholder="select organizations" name="organizations"-->
-               <!--[(ngModel)]="values['organizations']">-->
+      <!--<input mdInput [disabled]="readonly" placeholder="select organizations" name="organizations"-->
+      <!--[(ngModel)]="user.organizationIds">-->
       <!--</md-input-container>-->
+
 
     </md-card-content>
 
-    <md-card-footer align="right">
+    <md-card-actions class="detail-actions" align="right">
 
-      <button md-mini-fab *ngIf="readonly" color="primary" (click)="edit()">
-        <md-icon>edit</md-icon>
-      </button>
+      <!--<div class="button-box">-->
 
-      <button md-mini-fab *ngIf="!readonly" color="primary" (click)="submit()">
-        <md-icon>save</md-icon>
-      </button>
-      <button md-mini-fab *ngIf="!readonly" color="warn" (click)="undo()">
-        <md-icon>cancel</md-icon>
-      </button>
+        <button md-button="" *ngIf="readonly" color="primary" (click)="edit(userForm)">
+          <!--<md-icon>-->
+            EDIT
+          <!--</md-icon>-->
+        </button>
 
-    </md-card-footer>
+        <button md-button="" *ngIf="!readonly" color="primary" (click)="submit(userForm)">
+          <!--<md-icon>-->
+            SAVE
+          <!--</md-icon>-->
+        </button>
+        <button md-button="" *ngIf="!readonly" color="warn" (click)="undo(userForm)">
+          <!--<md-icon>-->
+            CANCEL
+          <!--</md-icon>-->
+        </button>
+      <!--</div>-->
+
+    </md-card-actions>
 
   </form>
 
