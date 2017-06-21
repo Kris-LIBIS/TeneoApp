@@ -1,7 +1,11 @@
 import * as ud from 'updeep';
 import * as _ from 'lodash';
 
-import { USERS_LOAD_FAILURE, USERS_LOAD_REQUEST, USERS_LOAD_SUCCESS, UsersActions } from './actions';
+import {
+  USERS_DELETE_SUCCESS,
+  USERS_LOAD_FAILURE, USERS_LOAD_REQUEST, USERS_LOAD_SUCCESS, USERS_SAVE_SUCCESS,
+  UsersActions
+} from './actions';
 import { DbUser } from '../../services/ingester/models';
 
 export interface IUserInfo {
@@ -56,6 +60,16 @@ export function usersReducer(state: IUsersState = ud.freeze(INITIAL_USERS_STATE)
         users: action.payload.map(user => dbUser2userInfo(user)),
         updating: false,
         lastUpdate: Date.now()
+      });
+
+    case USERS_SAVE_SUCCESS:
+      return updateState({
+        users: _.concat(state.users, [dbUser2userInfo(action.payload)])
+      });
+
+    case USERS_DELETE_SUCCESS:
+      return updateState({
+        users: _.reject(state.users, (user) => user.id === action.payload.id)
       });
 
     case USERS_LOAD_FAILURE:

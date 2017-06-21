@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { JsonApiDatastore, JsonApiDatastoreConfig, JsonApiModel, ModelType } from 'ng-jsonapi';
+import { AttributeMetadata, JsonApiDatastore, JsonApiDatastoreConfig, JsonApiModel, ModelType } from 'ng-jsonapi';
 import { environment } from '../../../environments/environment';
 import { DbOrganization, DbUser } from './models';
 import { Observable } from 'rxjs/Observable';
@@ -25,6 +25,7 @@ export class IngesterApiService extends JsonApiDatastore {
   }
 
   getObjectList<T extends JsonApiModel>(modelType: ModelType<T>): Observable<T[]> {
+
     return this.query(modelType).map((collection) => collection.data);
   }
 
@@ -32,12 +33,14 @@ export class IngesterApiService extends JsonApiDatastore {
     return this.findRecord(modelType, id).map((document) => document.data);
   }
 
-  saveObject<T extends JsonApiModel>(data: any, obj: T) {
-    return this.saveRecord(data, obj).map((document) => document.data);
+  saveObject<T extends JsonApiModel>(modelType: ModelType<T>, data: any) {
+    const obj = new modelType({attributes: data});
+    const attributesMetadata: any = obj[AttributeMetadata];
+    return this.saveRecord(attributesMetadata, obj).map((document) => document.data);
   }
 
-  deleteObject<T extends JsonApiModel>(modelType: ModelType<T>, obj: T): Observable<boolean> {
-    return this.deleteRecord(modelType, obj.id).map((res) => res == null);
+  deleteObject<T extends JsonApiModel>(modelType: ModelType<T>, data: any): Observable<boolean> {
+    return this.deleteRecord(modelType, data.id).map((res) => res == null);
   }
 
   getHasMany<T extends JsonApiModel>(modelType: ModelType<T>, url: string): Observable<T[]> {

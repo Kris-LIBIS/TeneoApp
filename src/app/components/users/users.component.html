@@ -9,33 +9,37 @@
 <!--</md-card>-->
 
 <md-card>
+
   <md-card-header color="primary">
-    <span>List of Users</span>
-    <span class="update-button">
-      <button md-button (click)="refresh()">
-      <span>Last update: {{ lastUpdate | async | amTimeAgo }}</span>
-      <md-icon>refresh</md-icon>
-      </button>
-    </span>
-    <!--<div fxLayout="">-->
-    <!--<md-card-title fxFlex="90">List of Users</md-card-title>-->
-    <!--<md-card-subtitle fxFlex="40" [fxFlexAlign]="'end'">-->
-    <!--<button md-button (click)="refresh()">-->
-    <!--<span>Last update: {{ lastUpdate | async | amTimeAgo }}</span>-->
-    <!--<md-icon>refresh</md-icon>-->
-    <!--</button>-->
-    <!--</md-card-subtitle>-->
-    <!--</div>-->
+    <md-card-title>List of Users</md-card-title>
+    <md-card-subtitle>Last update: {{ lastUpdate | async | amTimeAgo }}</md-card-subtitle>
   </md-card-header>
-  <div fxLayout.gt-md="" fxLayout.lt-md="row" fxLayoutWrap>
-    <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100" *ngFor="let user of (users | async)">
-      <teneo-user-detail [user]="user" [organizations]="organizations | async"
-                         (userSaved)="userSaved($event)"></teneo-user-detail>
+
+  <md-card-content>
+
+    <div fxLayout.gt-md="" fxLayout.lt-md="row" fxLayoutWrap>
+      <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100" *ngFor="let user of (users | async)">
+        <teneo-user-detail [user]="user" [organizations]="organizations | async"
+                           (userSaved)="userSaved($event)"
+                           (userDeleted)="userDeleted($event)"
+        ></teneo-user-detail>
+      </div>
+      <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100">
+        <teneo-user-detail [user]="{}" [organizations]="organizations | async"
+                           (userSaved)="userSaved($event)"></teneo-user-detail>
+      </div>
     </div>
-    <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100">
-      <teneo-user-detail [user]="{}" [organizations]="organizations | async"
-                         (userSaved)="userSaved($event)"></teneo-user-detail>
+
+  </md-card-content>
+
+  <md-card-actions>
+    <div class="card-buttons">
+      <button md-button (click)="refresh()">
+      <md-icon>refresh</md-icon>
+        <!--RELOAD-->
+      </button>
     </div>
-  </div>
+  </md-card-actions>
+
 </md-card>
 

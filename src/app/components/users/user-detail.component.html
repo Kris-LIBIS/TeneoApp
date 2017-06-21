@@ -44,22 +44,38 @@
 
       <!--<div class="button-box">-->
 
-        <button md-button="" *ngIf="readonly" color="primary" (click)="edit(userForm)">
+      <div *ngIf="readonly">
+
+        <button md-button="" *ngIf="readonly" color="warn" (click)="delete()">
           <!--<md-icon>-->
-            EDIT
+          DELETE
           <!--</md-icon>-->
         </button>
 
-        <button md-button="" *ngIf="!readonly" color="primary" (click)="submit(userForm)">
+        <button md-button="" *ngIf="readonly" color="primary" (click)="edit()">
           <!--<md-icon>-->
-            SAVE
+          EDIT
           <!--</md-icon>-->
         </button>
-        <button md-button="" *ngIf="!readonly" color="warn" (click)="undo(userForm)">
+
+      </div>
+
+      <div *ngIf="!readonly">
+
+        <button md-button="" *ngIf="!readonly" color="primary" (click)="submit()">
           <!--<md-icon>-->
-            CANCEL
+          SAVE
           <!--</md-icon>-->
         </button>
+
+        <button md-button="" *ngIf="!readonly" color="warn" (click)="undo()">
+          <!--<md-icon>-->
+          CANCEL
+          <!--</md-icon>-->
+        </button>
+        
+      </div>
+
       <!--</div>-->
 
     </md-card-actions>

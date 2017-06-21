@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../datastore/reducer';
-import { UsersLoadRequestAction } from '../../datastore/users/actions';
+import {
+  UsersDeleteRequestAction, UsersLoadRequestAction,
+  UsersSaveRequestAction
+} from '../../datastore/users/actions';
 import { Observable } from 'rxjs/Observable';
 import { IUserInfo, IUsersState } from '../../datastore/users/reducer';
 import { IOrganizationInfo, IOrganizationsState } from '../../datastore/organizations/reducer';
@@ -33,17 +36,11 @@ export class UsersComponent implements OnInit {
   }
 
   userSaved(user: IUserInfo) {
-    if (user.id) {
-      // update user in store
-      // this._store.dispatch(new UserUpdateAction(user));
-    } else {
-      // add user to store
-      // this._store.dispatch(new UserAddAction(user));
-    }
+     this._store.dispatch(new UsersSaveRequestAction(user));
   }
 
   userDeleted(user: IUserInfo) {
-    // this._store.dispatch(new UserDeleteAction(user));
+    this._store.dispatch(new UsersDeleteRequestAction(user));
   }
 
 
