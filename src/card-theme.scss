@@ -1,0 +1,39 @@
+@import '~@angular/material/theming';
+
+@mixin teneo-card-theme($light-theme, $dark-theme) {
+  $primary: map-get($light-theme, primary);
+  $accent: map-get($light-theme, accent);
+  $background: map-get($mat-light-theme-background, foreground);
+
+  $dark-primary: map-get($dark-theme, primary);
+  $dark-accent: map-get($dark-theme, accent);
+  $dark-background: map-get($mat-dark-theme-background, background);
+
+  .teneo-card {
+    background-color: rgba(grey, 0.1);
+  }
+
+  .teneo-card-emtpy {
+    background-color: rgba(grey, 0.5);
+  }
+
+  .teneo-card-edit {
+    background-color: mat-color($accent, default, 0.3);
+  }
+
+  .teneo-dark-theme {
+
+    .teneo-card {
+      background-color: rgba(lightgrey, 0.1);
+    }
+
+    .teneo-card-emtpy {
+      background-color: rgba(grey, 0.1);
+    }
+
+    .teneo-card-edit {
+      background-color: mat-color($dark-accent, default, 0.3);
+    }
+
+  }
+}

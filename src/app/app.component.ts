@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewEncapsulation, HostBinding } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IAppState } from './datastore/reducer';
 import { Store } from '@ngrx/store';
@@ -14,13 +14,12 @@ import { LoginDialogComponent } from './components/login/login-dialog.component'
   selector: 'teneo-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  host: {
-    '[class.unicorn-dark-theme]': 'dark',
-  }
 })
 export class AppComponent implements OnInit {
 
-  dark = false;
+  @HostBinding('class.teneo-dark-theme') dark = false;
+  @HostBinding('class.teneo-app-theme') light = true;
+
   userName: Observable<string>;
 
   constructor(
@@ -79,6 +78,11 @@ export class AppComponent implements OnInit {
     } else if (elem.msRequestFullScreen) {
       elem.msRequestFullScreen();
     }
+  }
+
+  toggleDark() {
+    this.dark = !this.dark;
+    this.light = !this.light;
   }
 
   openSnackbar(message: string, severity: string) {

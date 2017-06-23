@@ -3,9 +3,8 @@ import * as ud from 'updeep';
 import { GUI_MESSAGE_ADD, GUI_MESSAGE_CLEAR, GuiActions } from './actions';
 import { AUTH_FAILURE, AUTH_SUCCESS, AuthActions } from '../authorization/actions';
 import {
-  USERS_ADD_FAILURE,
-  USERS_LOAD_FAILURE, USERS_SAVE_FAILURE, UsersAddFailureAction, UsersLoadFailureAction,
-  UsersSaveFailureAction
+  USERS_LOAD_FAILURE, USERS_SAVE_FAILURE, USERS_DELETE_FAILURE,
+  UsersLoadFailureAction, UsersSaveFailureAction, UsersDeleteFailureAction
 } from '../users/actions';
 import { OrganizationsLoadFailureAction, ORGS_LOAD_FAILURE } from '../organizations/actions';
 
@@ -25,7 +24,7 @@ export const INITIAL_GUI_STATE: IGuiState = {
 
 type GuiReducerActions =
   GuiActions | AuthActions |
-  UsersLoadFailureAction | UsersSaveFailureAction | UsersAddFailureAction |
+  UsersLoadFailureAction | UsersSaveFailureAction | UsersDeleteFailureAction |
   OrganizationsLoadFailureAction;
 
 export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiReducerActions) {
@@ -53,7 +52,7 @@ export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiRedu
     case AUTH_FAILURE:
     case USERS_LOAD_FAILURE:
     case USERS_SAVE_FAILURE:
-    case USERS_ADD_FAILURE:
+    case USERS_DELETE_FAILURE:
     case ORGS_LOAD_FAILURE: {
       return updateState({
         message: {

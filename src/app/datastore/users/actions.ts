@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
-import { IUserInfo } from "./reducer";
-import { DbUser } from "../../services/ingester/models";
+import { DbUser } from '../../services/ingester/models';
+import { CollectionModel } from 'ng-jsonapi/dist/models/collection.model';
+import { IUserInfo } from './models';
 
 export const USERS_LOAD_REQUEST = '[Users] Load request';
 export const USERS_LOAD_SUCCESS = '[Users] Load success';
@@ -9,14 +10,14 @@ export const USERS_LOAD_FAILURE = '[Users] Load failure';
 export class UsersLoadRequestAction implements Action {
   readonly type = USERS_LOAD_REQUEST;
 
-  constructor(public payload: boolean = false) {
+  constructor(public payload: {force?: boolean, page?: number, per_page?: number, more?: boolean}) {
   }
 }
 
 export class UsersLoadSuccessAction implements Action {
   readonly type = USERS_LOAD_SUCCESS;
 
-  constructor(public payload: DbUser[]) {
+  constructor(public payload: {collection: CollectionModel<DbUser>, append?: boolean}  ) {
   }
 }
 
@@ -52,31 +53,6 @@ export class UsersSaveFailureAction implements Action {
   }
 }
 
-export const USERS_ADD_REQUEST = '[Users] Add request';
-export const USERS_ADD_SUCCESS = '[Users] Add success';
-export const USERS_ADD_FAILURE = '[Users] Add failure';
-
-export class UsersAddRequestAction implements Action {
-  readonly type = USERS_ADD_REQUEST;
-
-  constructor(public payload: IUserInfo) {
-  }
-}
-
-export class UsersAddSuccessAction implements Action {
-  readonly type = USERS_ADD_SUCCESS;
-
-  constructor(public payload: IUserInfo) {
-  }
-}
-
-export class UsersAddFailureAction implements Action {
-  readonly type = USERS_ADD_FAILURE;
-
-  constructor(public payload: any) {
-  }
-}
-
 export const USERS_DELETE_REQUEST = '[Users] Delete request';
 export const USERS_DELETE_SUCCESS = '[Users] Delete success';
 export const USERS_DELETE_FAILURE = '[Users] Delete failure';
@@ -105,5 +81,4 @@ export class UsersDeleteFailureAction implements Action {
 export type UsersActions =
   UsersLoadRequestAction | UsersLoadSuccessAction | UsersLoadFailureAction |
   UsersSaveRequestAction | UsersSaveSuccessAction | UsersSaveFailureAction |
-  UsersAddRequestAction | UsersAddSuccessAction | UsersAddFailureAction |
   UsersDeleteRequestAction | UsersDeleteSuccessAction | UsersDeleteFailureAction;

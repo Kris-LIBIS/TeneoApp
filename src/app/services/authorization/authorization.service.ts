@@ -29,7 +29,7 @@ export class AuthorizationService {
   }
 
   authenticate(request: IAuthorizationRequest): Observable<ITokenData> {
-    let headers = new Headers();
+    const headers = new Headers();
     headers.set('Accept', 'application/json');
     headers.set('Content-Type', 'application/json');
     return this._http
@@ -38,7 +38,7 @@ export class AuthorizationService {
   }
 
   refresh(token: string): Observable<ITokenData> {
-    let headers = new Headers();
+    const headers = new Headers();
     headers.set('Accept', 'application/json');
     headers.set('Content-Type', 'application/json');
     return this._http

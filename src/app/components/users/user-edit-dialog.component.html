@@ -1,0 +1,34 @@
+<form novalidate [formGroup]="userForm">
+
+  <md-dialog-content>
+
+    <md-input-container class="input-field input-main">
+      <input mdInput placeholder="user name" title="Name"
+             formControlName="name">
+    </md-input-container>
+
+    <md-select class="input-field"
+               placeholder="select role" title="Role"
+               formControlName="role">
+      <md-option value="submitter">Submitter</md-option>
+      <md-option value="admin">Administrator</md-option>
+    </md-select>
+
+    <teneo-select class="input-field"
+                  [control]="userForm.controls['organization_ids']"
+                  [options]="data.options"
+                  multiple="true"
+    >
+    </teneo-select>
+
+  </md-dialog-content>
+
+  <md-dialog-actions class="detail-actions" align="end">
+
+    <button md-button color="primary" (click)="saveData()" [disabled]="!userForm.valid">SAVE</button>
+
+    <button md-button color="warn" (click)="undoData()">CANCEL</button>
+
+  </md-dialog-actions>
+
+</form>

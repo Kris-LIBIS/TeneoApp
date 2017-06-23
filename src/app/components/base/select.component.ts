@@ -1,15 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IOrganizationInfo } from '../../datastore/organizations/models';
 
 @Component({
-  selector: 'teneo-user-organizations',
+  selector: 'teneo-select',
   template: `
     <md-select class="input-field"
                placeholder="select organizations" title="Organizations"
                [formControl]="control"
-               multiple="true">
-      <md-option *ngFor="let org of options" [value]="org.id">{{org.name}}</md-option>
+               [multiple]="multiple">
+      <md-option *ngFor="let option of options" [value]="option.id">{{option.name}}</md-option>
     </md-select>
   `,
   styles: [`
@@ -19,10 +18,11 @@ import { IOrganizationInfo } from '../../datastore/organizations/models';
     }
   `]
 })
-export class UserOrganizationsComponent {
+export class SelectComponent {
 
-  @Input() organizations: IOrganizationInfo[];
+  @Input() options: any[];
   @Input() control: FormControl;
+  @Input() multiple: boolean = false;
 
   constructor() {
   }

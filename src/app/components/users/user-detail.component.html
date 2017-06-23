@@ -1,85 +1,31 @@
-<md-card class="detail-card" [class.detail-edit-card]="!readonly" [class.detail-empty-card]="!userForm.controls['id'].value">
+<md-card class="teneo-card">
 
-  <form novalidate [formGroup]="userForm">
+  <md-card-header>
+    <md-card-title>
+      {{user.name}}
+    </md-card-title>
+  </md-card-header>
 
-    <md-card-content class="detail-content">
+  <md-card-content>
 
-      <md-input-container class="input-field input-main" floatPlaceholder="never">
-        <input mdInput
-               placeholder="new user" title="Name"
-               formControlName="name"
-               required>
-      </md-input-container>
+    <div class="label">Role:</div>
+    <div class="value">{{user.role}}</div>
 
-      <md-select class="input-field"
-                 placeholder="select role" title="Role"
-                 formControlName="role"
-                 required>
-        <md-option value="submitter">Submitter</md-option>
-        <md-option value="admin">Administrator</md-option>
-      </md-select>
+    <div class="label">Organizations:</div>
+    <div class="value">{{organizations}}</div>
 
-      <!--<md-select *ngIf="!readonly" class="input-field"-->
-      <!--placeholder="select organizations" title="Organizations"-->
-      <!--FormControlName="organization_ids"-->
-      <!--multiple="true">-->
-      <!--<md-option *ngFor="let org of (organizations | async)" [value]="org.id">{{org.name}}</md-option>-->
-      <!--</md-select>-->
+  </md-card-content>
 
-      <teneo-user-organizations *ngIf="!readonly"
-                                class="input-field"
-                                [organizations]="organizations"
-                                [control]="userForm.controls['organization_ids']"
-      ></teneo-user-organizations>
+  <md-card-actions align="end">
 
-      <!--<md-input-container class="input-field">-->
-      <!--<input mdInput [disabled]="readonly" placeholder="select organizations" name="organizations"-->
-      <!--[(ngModel)]="user.organizationIds">-->
-      <!--</md-input-container>-->
+    <button md-button color="warn" (click)="deleteUser.next(user)">
+      DELETE
+    </button>
 
+    <button md-button color="primary" (click)="editUser.next(user)">
+      EDIT
+    </button>
 
-    </md-card-content>
-
-    <md-card-actions class="detail-actions" align="right">
-
-      <!--<div class="button-box">-->
-
-      <div *ngIf="readonly">
-
-        <button md-button="" *ngIf="readonly" color="warn" (click)="delete()">
-          <!--<md-icon>-->
-          DELETE
-          <!--</md-icon>-->
-        </button>
-
-        <button md-button="" *ngIf="readonly" color="primary" (click)="edit()">
-          <!--<md-icon>-->
-          EDIT
-          <!--</md-icon>-->
-        </button>
-
-      </div>
-
-      <div *ngIf="!readonly">
-
-        <button md-button="" *ngIf="!readonly" color="primary" (click)="submit()">
-          <!--<md-icon>-->
-          SAVE
-          <!--</md-icon>-->
-        </button>
-
-        <button md-button="" *ngIf="!readonly" color="warn" (click)="undo()">
-          <!--<md-icon>-->
-          CANCEL
-          <!--</md-icon>-->
-        </button>
-        
-      </div>
-
-      <!--</div>-->
-
-    </md-card-actions>
-
-  </form>
+  </md-card-actions>
 
 </md-card>

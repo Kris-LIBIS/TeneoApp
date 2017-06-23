@@ -6,8 +6,10 @@ import { environment } from '../../environments/environment';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import { authReducer, IAuthState, INITIAL_AUTH_STATE } from './authorization/reducer';
 import { IGuiState, INITIAL_GUI_STATE, guiReducer } from './gui/reducer';
-import { INITIAL_USERS_STATE, IUsersState, usersReducer } from './users/reducer';
-import { INITIAL_ORGS_STATE, IOrganizationsState, orgsReducer } from './organizations/reducer';
+import { INITIAL_USERS_STATE, IUsersState } from './users/models';
+import { INITIAL_ORGS_STATE, IOrganizationsState } from './organizations/models';
+import { usersReducer } from './users/reducer';
+import { orgsReducer } from './organizations/reducer';
 
 export interface IAppState {
   router: RouterState;

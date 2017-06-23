@@ -19,27 +19,34 @@
 
     <div fxLayout.gt-md="" fxLayout.lt-md="row" fxLayoutWrap>
       <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100" *ngFor="let user of (users | async)">
-        <teneo-user-detail [user]="user" [organizations]="organizations | async"
-                           (userSaved)="userSaved($event)"
-                           (userDeleted)="userDeleted($event)"
+
+        <teneo-user-detail [user]="user" [organizations]="userOrgList(user) | async"
+                           (editUser)="editUser($event)"
+                           (deleteUser)="userDeleted($event)"
         ></teneo-user-detail>
+
       </div>
-      <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100">
-        <teneo-user-detail [user]="{}" [organizations]="organizations | async"
-                           (userSaved)="userSaved($event)"></teneo-user-detail>
-      </div>
+
     </div>
 
   </md-card-content>
 
-  <md-card-actions>
+  <md-card-actions align="end">
+
+    <button md-button *ngIf="hasMore" (click)="getMore()">MORE ({{remainingCount()}})</button>
+
     <div class="card-buttons">
+
+      <button md-button (click)="newUser()">
+        <md-icon>add</md-icon>
+      </button>
+
       <button md-button (click)="refresh()">
-      <md-icon>refresh</md-icon>
+        <md-icon>refresh</md-icon>
         <!--RELOAD-->
       </button>
+
     </div>
   </md-card-actions>
 
 </md-card>
-

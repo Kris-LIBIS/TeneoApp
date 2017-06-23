@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../datastore/reducer';
 import { AuthorizationService, ITokenData } from '../authorization/authorization.service';
-import { IUserInfo } from '../../datastore/users/reducer';
+import { IUserInfo } from '../../datastore/users/models';
 
 @Injectable()
 export class StateService {

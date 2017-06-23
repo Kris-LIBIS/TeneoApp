@@ -4,6 +4,7 @@ import { AttributeMetadata, JsonApiDatastore, JsonApiDatastoreConfig, JsonApiMod
 import { environment } from '../../../environments/environment';
 import { DbOrganization, DbUser } from './models';
 import { Observable } from 'rxjs/Observable';
+import { CollectionModel } from 'ng-jsonapi/dist/models/collection.model';
 
 
 @Injectable()
@@ -25,8 +26,21 @@ export class IngesterApiService extends JsonApiDatastore {
   }
 
   getObjectList<T extends JsonApiModel>(modelType: ModelType<T>): Observable<T[]> {
-
     return this.query(modelType).map((collection) => collection.data);
+  }
+
+  getCollection<T extends JsonApiModel>(modelType: ModelType<T>, page?: number, per_page?: number): Observable<CollectionModel<T>> {
+    const options: { page?: number, per_page?: number } = {};
+    if (page) {
+      options.page = page
+    }
+    if (per_page) {
+      options.per_page = per_page
+    }
+    if (options) {
+      return this.query(modelType, options);
+    }
+    return this.query(modelType);
   }
 
   getObject<T extends JsonApiModel>(modelType: ModelType<T>, id: string): Observable<T> {

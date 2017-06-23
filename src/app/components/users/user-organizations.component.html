@@ -2,13 +2,5 @@
            placeholder="select organizations" title="Organizations"
            [formControl]="control"
            multiple="true">
-  <md-option *ngFor="let org of organizations" [value]="org.id">{{org.name}}</md-option>
+  <md-option *ngFor="let org of options" [value]="org.id">{{org.name}}</md-option>
 </md-select>
-
-
-<!--<div fxLayout="column" class="input-field">-->
-  <!--<md-checkbox fxFlexFill *ngFor="let org of organizations"-->
-               <!--[id]="org.id" [value]="org.id" [name]="org.name"-->
-               <!--[checked]="isSelected(org.id)"-->
-  <!--&gt;{{org.name}}</md-checkbox>-->
-<!--</div>-->

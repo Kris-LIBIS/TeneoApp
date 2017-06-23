@@ -37,11 +37,17 @@ import { AccessRightsComponent } from './components/access-rights/access-rights.
 import { RetentionPeriodsComponent } from './components/retention-periods/retention-periods.component';
 import { IngesterApiService } from './services/ingester/ingester-api.service';
 import { UserEffects } from './datastore/users/effects';
-import { UserListComponent } from './components/users/user-list.component';
 import { UserDetailComponent } from './components/users/user-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationEffects } from './datastore/organizations/effects';
 import { UserOrganizationsComponent } from './components/users/user-organizations.component';
+import { UserEditDialogComponent } from './components/users/user-edit-dialog.component';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog.component';
+import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
+import { ListComponent } from './components/base/list.component';
+import { SelectComponent } from './components/base/select.component';
+import { OrganizationDetailComponent } from './components/organizations/organization-detail.component';
+import { EditDialogComponent } from './dialogs/edit-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -64,9 +70,15 @@ export function HttpLoaderFactory(http: Http) {
     RepresentationsComponent,
     AccessRightsComponent,
     RetentionPeriodsComponent,
-    UserListComponent,
     UserDetailComponent,
     UserOrganizationsComponent,
+    OrganizationDetailComponent,
+    UserEditDialogComponent,
+    ConfirmationDialogComponent,
+    InfiniteScrollDirective,
+    ListComponent,
+    SelectComponent,
+    EditDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -95,7 +107,10 @@ export function HttpLoaderFactory(http: Http) {
     TranslateModule
   ],
   entryComponents: [
-    LoginDialogComponent
+    LoginDialogComponent,
+    UserEditDialogComponent,
+    ConfirmationDialogComponent,
+    EditDialogComponent
   ],
   providers: [
     {provide: OverlayContainer, useClass: FullscreenOverlayContainer},
