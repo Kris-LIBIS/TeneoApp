@@ -3,3 +3,18 @@
   right: 0;
   top:0;
 }
+
+.mat-card {
+  height: 100%;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list-item {
+  display: flex;
+  padding: 0.5em;
+  width: 25%;
+}

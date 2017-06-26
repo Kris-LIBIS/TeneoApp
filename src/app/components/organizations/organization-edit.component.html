@@ -1,0 +1,25 @@
+<form novalidate [formGroup]="formGroup">
+
+  <md-dialog-content>
+
+    <md-input-container class="input-field input-main">
+      <input mdInput placeholder="organization name" title="Name"
+             formControlName="name">
+    </md-input-container>
+
+    <md-input-container class="input-field">
+      <input mdInput placeholder="institution code" title="Code"
+             formControlName="code">
+    </md-input-container>
+
+  </md-dialog-content>
+
+  <md-dialog-actions class="detail-actions" align="end">
+
+    <button md-button color="primary" [md-dialog-close]="formGroup.value" [disabled]="!formGroup.valid">SAVE</button>
+
+    <button md-button color="warn" md-dialog-close>CANCEL</button>
+
+  </md-dialog-actions>
+
+</form>

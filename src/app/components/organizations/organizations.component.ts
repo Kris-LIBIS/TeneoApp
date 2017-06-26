@@ -15,6 +15,7 @@ import { UsersLoadRequestAction } from '../../datastore/users/actions';
 import * as _ from 'lodash';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OrganizationEditComponent } from './organization-edit.component';
 
 @Component({
   selector: 'teneo-organizations',
@@ -55,10 +56,6 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
 
   pageInfo: Observable<IPageInfo>;
 
-  @ViewChild('editdialog') editDialogTemplate: TemplateRef<any>;
-
-  formGroup: FormGroup;
-
   constructor(private _store: Store<IAppState>,
               public   dialog: MdDialog,
               private _fb: FormBuilder) {
@@ -68,7 +65,6 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
     this.pageInfo = state$.map(state => state.page);
     this.users = this._store.select('users').map((state: IUsersState) => state.users);
     this.lastUpdate = state$.map(state => state.lastUpdate);
-    this.createForm(newOrganizationInfo());
   }
 
   ngOnInit() {
@@ -98,19 +94,17 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   }
 
   newOrganization() {
-    this.formGroup.setValue(newOrganizationInfo());
     this.editDialog.data.organization = newOrganizationInfo();
     this.openEditDialog();
   }
 
   editOrganization(org) {
-    this.formGroup.setValue(org);
     this.editDialog.data.organization = org;
     this.openEditDialog();
   }
 
   deleteOrganization(org: IOrganizationInfo) {
-    this.confirmationDialog.data.title = `Deleting organization '$org.name}'`;
+    this.confirmationDialog.data.title = `Deleting organization '${org.name}'`;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, this.confirmationDialog);
     const subscription = dialogRef.afterClosed()
       .subscribe((result) => {
@@ -123,7 +117,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   }
 
   openEditDialog() {
-    const dialogRef = this.dialog.open(this.editDialogTemplate, this.editDialog);
+    const dialogRef = this.dialog.open(OrganizationEditComponent, this.editDialog);
     this.dialogSubscription = dialogRef.afterClosed()
       .subscribe((data: IOrganizationInfo) => {
           if (data) {
@@ -132,15 +126,6 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
           this.dialogSubscription.unsubscribe();
         }
       );
-  }
-
-  private createForm(data: IOrganizationInfo) {
-    this.formGroup = this._fb.group({
-      id: data.id,
-      name: [data.name, Validators.required],
-      code: [data.code, Validators.required],
-      user_ids: [data.user_ids],
-    });
   }
 
 }

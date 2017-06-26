@@ -1,5 +1,9 @@
-.mat-card {
+.teneo-card {
   margin: 0.5em;
+}
+.content {
+  overflow-y: visible;
+  height: auto;
 }
 
 .mat-card-title {
@@ -15,4 +19,5 @@
 .value {
   padding-left: 1em;
   font-size: large;
+  width: 100%;
 }

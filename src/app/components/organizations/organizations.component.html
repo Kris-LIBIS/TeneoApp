@@ -6,47 +6,18 @@
   (newObject)="newOrganization()"
   (reload)="reload()"
 >
-  <div fxLayout.gt-md="" fxLayout.lt-md="row" fxLayoutWrap>
-    <div fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100" *ngFor="let org of (organizations | async)">
+  <div class="list" fxLayout.gt-md="row" fxLayout.lt-md="row" fxLayoutWrap fxLayoutAlign="stretch">
 
-      <teneo-organization-detail [organization]="org" [users]="orgUserList(org) | async"
-                         (editOrganization)="editOrganization($event)"
-                         (deleteOrganization)="deleteOrganization($event)"
+    <teneo-organization-detail
+      class="item"
+      fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100"
+      *ngFor="let org of (organizations | async)"
+      [organization]="org" [users]="orgUserList(org) | async"
+      (editOrganization)="editOrganization($event)"
+      (deleteOrganization)="deleteOrganization($event)"
+    ></teneo-organization-detail>
 
-      ></teneo-organization-detail>
-
-    </div>
 
   </div>
 
 </teneo-list>
-
-<ng-template #editdialog>
-
-  <form novalidate [formGroup]="formGroup">
-
-    <md-dialog-content>
-
-      <md-input-container class="input-field input-main">
-        <input mdInput placeholder="organization name" title="Name"
-               formControlName="name">
-      </md-input-container>
-
-      <md-input-container class="input-field">
-        <input mdInput placeholder="institution code" title="Code"
-               formControlName="code">
-      </md-input-container>
-
-    </md-dialog-content>
-
-    <md-dialog-actions class="detail-actions" align="end">
-
-      <button md-button color="primary" md-dialog-close="formGroup.value" [disabled]="!formGroup.valid">SAVE</button>
-
-      <button md-button color="warn" md-dialog-close="false">CANCEL</button>
-
-    </md-dialog-actions>
-
-  </form>
-
-</ng-template>

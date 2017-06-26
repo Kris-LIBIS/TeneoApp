@@ -48,6 +48,7 @@ import { ListComponent } from './components/base/list.component';
 import { SelectComponent } from './components/base/select.component';
 import { OrganizationDetailComponent } from './components/organizations/organization-detail.component';
 import { EditDialogComponent } from './dialogs/edit-dialog.component';
+import { OrganizationEditComponent } from './components/organizations/organization-edit.component';
 
 
 // AoT requires an exported function for factories
@@ -79,6 +80,7 @@ export function HttpLoaderFactory(http: Http) {
     ListComponent,
     SelectComponent,
     EditDialogComponent,
+    OrganizationEditComponent,
   ],
   imports: [
     CommonModule,
@@ -108,9 +110,10 @@ export function HttpLoaderFactory(http: Http) {
   ],
   entryComponents: [
     LoginDialogComponent,
-    UserEditDialogComponent,
+    EditDialogComponent,
     ConfirmationDialogComponent,
-    EditDialogComponent
+    UserEditDialogComponent,
+    OrganizationEditComponent
   ],
   providers: [
     {provide: OverlayContainer, useClass: FullscreenOverlayContainer},

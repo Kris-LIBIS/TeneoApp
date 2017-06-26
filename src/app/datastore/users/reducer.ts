@@ -7,6 +7,7 @@ import {
   USERS_LOAD_REQUEST, USERS_LOAD_SUCCESS, USERS_LOAD_FAILURE,
   USERS_SAVE_SUCCESS, USERS_DELETE_SUCCESS, UsersActions
 } from './actions';
+import { replaceOrAppend } from '../reducer';
 
 export function usersReducer(state: IUsersState = ud.freeze(INITIAL_USERS_STATE), action: UsersActions): IUsersState {
   const updateState = ud(ud._, state);
@@ -32,9 +33,9 @@ export function usersReducer(state: IUsersState = ud.freeze(INITIAL_USERS_STATE)
       });
 
     case USERS_SAVE_SUCCESS:
-      const newUser: IUserInfo = dbUser2userInfo(action.payload);
       return updateState({
-        users: state.users.map(user => user.id === newUser.id ? newUser : user)
+        users: replaceOrAppend(state.users, dbUser2userInfo(action.payload))
+
       });
 
     case USERS_DELETE_SUCCESS:

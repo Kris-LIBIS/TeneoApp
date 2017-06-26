@@ -1,5 +1,11 @@
-.mat-card {
+.teneo-card {
   margin: 0.5em;
+  //height: 100%;
+}
+
+.mat-card-content {
+  min-height: 3em;
+  overflow-y: auto;
 }
 
 .mat-card-title {

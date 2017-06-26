@@ -34,12 +34,24 @@ import { IPageInfo } from '../../datastore/models';
 
     </md-card>
   `,
-  styles: []
+  styles: [`
+    .card-buttons {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  `]
 })
 export class ListComponent {
   @Input() title: string;
   @Input() lastUpdate: number;
-  @Input() pageInfo: IPageInfo;
+  @Input()
+    set pageInfo(v: IPageInfo) {
+    if (v) {
+      this.hasMore = v.current < v.pages;
+      this.remaining = v.count - v.current * v.per_page;
+    }
+  };
   @Output() getMore: EventEmitter<number> = new EventEmitter();
   @Output() newObject: EventEmitter<any> = new EventEmitter();
   @Output() reload: EventEmitter<any> = new EventEmitter();

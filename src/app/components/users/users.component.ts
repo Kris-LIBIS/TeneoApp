@@ -99,7 +99,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     );
   }
 
-  userDeleted(user: IUserInfo) {
+  deleteUser(user: IUserInfo) {
     this.confirmationDialog.data.title = `Deleting user '${user.name}'`;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, this.confirmationDialog);
     const subscription = dialogRef.afterClosed()

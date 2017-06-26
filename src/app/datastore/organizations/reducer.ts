@@ -8,6 +8,7 @@ import {
   ORG_SAVE_SUCCESS, ORG_DELETE_SUCCESS, OrganizationsActions
 } from './actions';
 import { meta2PageInfo } from '../models';
+import { replaceOrAppend } from '../reducer';
 
 export function orgsReducer(state: IOrganizationsState = ud.freeze(INITIAL_ORGS_STATE), action: OrganizationsActions): IOrganizationsState {
   const updateState = ud(ud._, state);
@@ -33,9 +34,8 @@ export function orgsReducer(state: IOrganizationsState = ud.freeze(INITIAL_ORGS_
       });
 
     case ORG_SAVE_SUCCESS:
-      const newOrg: IOrganizationInfo = dbOrganization2organizationInfo(action.payload);
       return updateState({
-        organizations: state.organizations.map(org => org.id === newOrg.id ? newOrg : org)
+        organizations: replaceOrAppend(state.organizations, dbOrganization2organizationInfo(action.payload))
       });
 
     case ORG_DELETE_SUCCESS:

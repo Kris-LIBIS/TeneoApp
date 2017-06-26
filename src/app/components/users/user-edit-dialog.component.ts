@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MdDialogRef, MD_DIALOG_DATA} from '@angular/material'
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material'
 import { IUserInfo } from '../../datastore/users/models';
 
 @Component({
