@@ -13,7 +13,7 @@
       class="item"
       fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100"
       *ngFor="let user of (users | async)"
-      [user]="user" [organizations]="userOrgList(user) | async"
+      [user]="user"
       (editUser)="editUser($event)"
       (deleteUser)="deleteUser($event)"
     ></teneo-user-detail>

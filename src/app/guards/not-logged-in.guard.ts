@@ -8,14 +8,11 @@ import { go } from '@ngrx/router-store';
 
 @Injectable()
 export class NotLoggedInGuard implements CanActivate {
-  constructor(private _state: StateService, private _store: Store<IAppState>) {
+  constructor(private _state: StateService) {
   }
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this._state.getCurrentUser()) {
-      return true;
-    }
-    this._store.dispatch(go('/dashboard'));
+    return !this._state.loggedIn();
   }
 }

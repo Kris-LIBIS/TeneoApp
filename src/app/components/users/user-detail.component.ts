@@ -10,7 +10,6 @@ import { IUserInfo } from '../../datastore/users/models';
 export class UserDetailComponent implements OnInit {
 
   @Input() user: IUserInfo;
-  @Input() organizations: string;
 
   @Output() editUser: EventEmitter<IUserInfo> = new EventEmitter();
   @Output() deleteUser: EventEmitter<IUserInfo> = new EventEmitter();

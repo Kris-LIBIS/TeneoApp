@@ -1,0 +1,61 @@
+<md-sidenav #sidemenu mode="over" >
+
+  <md-nav-list>
+
+    <a md-list-item (click)="sidemenu.close()"
+       routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
+      <md-icon class="menu-md-icon">dashboard</md-icon>
+      &nbsp;{{ 'dashboard' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/runs']" [routerLinkActive]="['router-link-active']">
+      <md-icon class="menu-md-icon">autorenew</md-icon>
+      &nbsp;{{ 'runs' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/users']" [routerLinkActive]="['router-link-active']">
+      <md-icon class="menu-md-icon">account_circle</md-icon>
+      &nbsp;{{ 'users' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/organizations']" [routerLinkActive]="['router-link-active']">
+      <md-icon class="menu-md-icon">people</md-icon>
+      &nbsp;{{ 'organizations' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/workflows']" [routerLinkActive]="['router-link-active']">
+      <fa class="menu-fa-icon" name="sitemap" size="1g"></fa>
+      &nbsp;{{ 'workflows' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/ingest-models']" [routerLinkActive]="['router-link-active']">
+      <fa class="menu-fa-icon" name="linode"></fa>
+      &nbsp;{{ 'ingest models' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/representations']" [routerLinkActive]="['router-link-active']">
+      <fa class="menu-fa-icon" name="window-restore"></fa>
+      &nbsp;{{ 'representations' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/access-rights']" [routerLinkActive]="['router-link-active']">
+      <md-icon class="menu-md-icon">lock</md-icon>
+      &nbsp;{{ 'access rights' | translate }}
+    </a>
+
+    <a md-list-item (click)="sidemenu.close()"
+       [routerLink]="['/retention-periods']" [routerLinkActive]="['router-link-active']">
+      <md-icon class="menu-md-icon">delete</md-icon>
+      &nbsp;{{ 'retention periods' | translate }}
+    </a>
+
+  </md-nav-list>
+
+</md-sidenav>

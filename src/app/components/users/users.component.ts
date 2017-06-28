@@ -24,10 +24,12 @@ import * as _ from 'lodash';
 export class UsersComponent implements OnInit, OnDestroy {
 
   users: Observable<IUserInfo[]>;
+  lastUpdate: Observable<number>;
+
   organizations: Observable<IOrganizationInfo[]>;
   orgSubscription: Subscription;
+
   dialogSubscription: Subscription;
-  lastUpdate: Observable<number>;
 
   editDialog: MdDialogConfig = {
     disableClose: false,
@@ -51,52 +53,34 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   };
 
-  pageInfo: IPageInfo;
-  hasMore: boolean;
-  pageInfoSubscription: Subscription;
+  pageInfo: Observable<IPageInfo>;
 
   constructor(private _store: Store<IAppState>,
               public   dialog: MdDialog) {
-    this.users = this._store.select('users').map((state: IUsersState) => state.users);
-    this.lastUpdate = this._store.select('users').map((state: IUsersState) => state.lastUpdate);
+    const state$: Observable<IUsersState> = this._store.select('users');
+    this.users = state$.map(state => state.users);
+    this.lastUpdate = state$.map(state => state.lastUpdate);
+    this.pageInfo = state$.map(state => state.page);
+    this.lastUpdate = state$.map(state => state.lastUpdate);
+    this.organizations = this._store.select('organizations').map((state: IOrganizationsState) => state.organizations);
   }
 
   ngOnInit() {
-    this.organizations = this._store.select('organizations')
-      .map((state: IOrganizationsState) => state.organizations);
-    this.orgSubscription = this.organizations
-      .subscribe((orgs) => this.editDialog.data.options = orgs);
+    this.orgSubscription = this.organizations.subscribe(orgs => this.editDialog.data.options = orgs);
     this._store.dispatch(new UsersLoadRequestAction({force: false, page: 1}));
     this._store.dispatch(new OrganizationsLoadRequestAction({force: false, page: 1, per_page: 50}));
-    this.pageInfoSubscription = this._store.select('users').map((state: IUsersState) => state.page).subscribe(info => {
-      this.pageInfo = info;
-      this.hasMore = info.current < info.pages;
-    });
   }
 
   ngOnDestroy() {
     this.orgSubscription.unsubscribe();
-    this.pageInfoSubscription.unsubscribe();
   }
 
-  remainingCount(): number {
-    return this.pageInfo.count - this.pageInfo.current * this.pageInfo.per_page;
+  getMore(page: number) {
+    this._store.dispatch(new UsersLoadRequestAction({force: true, page: page, more: true}));
   }
 
-  getMore() {
-    this._store.dispatch(new UsersLoadRequestAction({force: true, page: this.pageInfo.current + 1, more: this.pageInfo.current > 0}));
-  }
-
-  refresh() {
+  reload() {
     this._store.dispatch(new UsersLoadRequestAction({force: true, page: 1}));
-  }
-
-  userOrgList(user: IUserInfo): Observable<string> {
-    return this.organizations.map(orgs => _.map(user.organization_ids, (id) => {
-        const org = _.find(orgs, org => org.id === id);
-        return org ? org.name : '';
-      }).join(',')
-    );
   }
 
   deleteUser(user: IUserInfo) {

@@ -59,7 +59,7 @@ export class AuthorizationService {
   static validate(token: string): ITokenData {
     try {
       const data = jwt_decode(token);
-      console.log('Token decoded', data);
+      // console.log('Token decoded', data);
       return {token: token, user: data.user};
     } catch (err) {
       console.log('DecodeError', err.toString());

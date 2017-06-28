@@ -8,14 +8,11 @@ import { IAppState } from '../datastore/reducer';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
-  constructor(private _state: StateService, private _store: Store<IAppState>) {
+  constructor(private _state: StateService) {
   }
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this._state.getCurrentUser()) {
-      return true;
-    }
-    this._store.dispatch(go('/home'));
+    return this._state.loggedIn();
   }
 }

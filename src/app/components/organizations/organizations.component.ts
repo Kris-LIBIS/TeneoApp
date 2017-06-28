@@ -57,8 +57,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   pageInfo: Observable<IPageInfo>;
 
   constructor(private _store: Store<IAppState>,
-              public   dialog: MdDialog,
-              private _fb: FormBuilder) {
+              public   dialog: MdDialog) {
     const state$: Observable<IOrganizationsState> = this._store.select('organizations');
     this.organizations = state$.map(state => state.organizations);
     this.lastUpdate = state$.map(state => state.lastUpdate);
@@ -83,14 +82,6 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
 
   reload() {
     this._store.dispatch(new OrganizationsLoadRequestAction({force: true, page: 1}));
-  }
-
-  orgUserList(org: IOrganizationInfo): Observable<string> {
-    return this.users.map(users => org ? _.map(org.user_ids, (user_id) => {
-        const user = _.find(users, user => user.id === user_id);
-        return user ? user.name : '';
-      }).join(',') : ''
-    );
   }
 
   newOrganization() {

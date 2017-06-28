@@ -40,7 +40,6 @@ import { UserEffects } from './datastore/users/effects';
 import { UserDetailComponent } from './components/users/user-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationEffects } from './datastore/organizations/effects';
-import { UserOrganizationsComponent } from './components/users/user-organizations.component';
 import { UserEditDialogComponent } from './components/users/user-edit-dialog.component';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog.component';
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
@@ -49,6 +48,9 @@ import { SelectComponent } from './components/base/select.component';
 import { OrganizationDetailComponent } from './components/organizations/organization-detail.component';
 import { EditDialogComponent } from './dialogs/edit-dialog.component';
 import { OrganizationEditComponent } from './components/organizations/organization-edit.component';
+import { MenuComponent } from './components/layout/menu.component';
+import { ToolbarComponent } from './components/layout/toolbar.component';
+import { GuiEffects } from './datastore/gui/effects';
 
 
 // AoT requires an exported function for factories
@@ -72,7 +74,6 @@ export function HttpLoaderFactory(http: Http) {
     AccessRightsComponent,
     RetentionPeriodsComponent,
     UserDetailComponent,
-    UserOrganizationsComponent,
     OrganizationDetailComponent,
     UserEditDialogComponent,
     ConfirmationDialogComponent,
@@ -81,6 +82,8 @@ export function HttpLoaderFactory(http: Http) {
     SelectComponent,
     EditDialogComponent,
     OrganizationEditComponent,
+    MenuComponent,
+    ToolbarComponent,
   ],
   imports: [
     CommonModule,
@@ -100,6 +103,7 @@ export function HttpLoaderFactory(http: Http) {
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(AuthEffects),
+    EffectsModule.run(GuiEffects),
     EffectsModule.run(UserEffects),
     EffectsModule.run(OrganizationEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),

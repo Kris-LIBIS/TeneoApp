@@ -3,7 +3,7 @@
 @include mat-core();
 
 // Define the default theme (same as the example above).
-$teneo-app-primary: mat-palette($mat-indigo);
+$teneo-app-primary: mat-palette($mat-blue-grey);
 $teneo-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 $teneo-app-theme:   mat-light-theme($teneo-app-primary, $teneo-app-accent);
 

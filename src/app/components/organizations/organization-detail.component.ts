@@ -10,7 +10,6 @@ import { IOrganizationInfo } from '../../datastore/organizations/models';
 export class OrganizationDetailComponent implements OnInit {
 
   @Input() organization: IOrganizationInfo;
-  @Input() users: string;
 
   @Output() editOrganization: EventEmitter<IOrganizationInfo> = new EventEmitter();
   @Output() deleteOrganization: EventEmitter<IOrganizationInfo> = new EventEmitter();

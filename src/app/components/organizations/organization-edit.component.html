@@ -12,6 +12,13 @@
              formControlName="code">
     </md-input-container>
 
+    <teneo-select class="input-field"
+                  [control]="formGroup.controls['user_ids']"
+                  [options]="data.options"
+                  multiple="true"
+    >
+    </teneo-select>
+
   </md-dialog-content>
 
   <md-dialog-actions class="detail-actions" align="end">

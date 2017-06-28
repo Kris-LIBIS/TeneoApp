@@ -46,6 +46,14 @@ export function dbOrganization2organizationInfo(org: DbOrganization): IOrganizat
   result.id = org.id;
   result.name = org.name;
   result.code = org.code;
+  result.material_flow = org.material_flow;
+  result.ingest_dir = org.ingest_dir;
+  if (org.producer) {
+    result.producer = {id: '', agent: '', password: ''};
+    result.producer.id = org.producer.id;
+    result.producer.agent = org.producer.agent;
+    result.producer.password = org.producer.password;
+  }
   result.user_ids = org.user_ids;
   return result;
 }

@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   constructor(private _state: StateService, private _store: Store<IAppState>) { }
 
   ngOnInit() {
-    if (this._state.getCurrentUser()) {
+    if (this._state.loggedIn()) {
       this._store.dispatch(go('/dashboard'));
     }
   }

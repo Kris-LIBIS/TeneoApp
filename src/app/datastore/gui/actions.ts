@@ -13,4 +13,11 @@ export class GuiMessageAddAction implements Action {
 export class GuiMessageClearAction implements Action {
   readonly type = GUI_MESSAGE_CLEAR;
 }
-export type GuiActions = GuiMessageAddAction | GuiMessageClearAction;
+
+export const GUI_VALID_ROUTE = '[GUI] valid routing';
+
+export class GuiValidRouteAction implements Action {
+  readonly type = GUI_VALID_ROUTE;
+}
+
+export type GuiActions = GuiMessageAddAction | GuiMessageClearAction | GuiValidRouteAction;

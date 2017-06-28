@@ -1,13 +1,18 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewEncapsulation, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewEncapsulation, HostBinding,
+  OnDestroy
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IAppState } from './datastore/reducer';
 import { Store } from '@ngrx/store';
-import { IGuiState } from './datastore/gui/reducer';
 import { MdDialog, MdDialogConfig, MdSnackBar, MdSnackBarConfig } from '@angular/material';
-import { IAuthState } from './datastore/authorization/reducer';
 import { Observable } from 'rxjs/Observable';
 import { AuthLogoutAction } from './datastore/authorization/actions';
 import { LoginDialogComponent } from './components/login/login-dialog.component';
+import { StateService } from './services/state/state.service';
+import { Subscription } from 'rxjs/Subscription';
+import { go } from "@ngrx/router-store";
+import { GuiValidRouteAction } from "./datastore/gui/actions";
 
 @Component({
   moduleId: module.id,
@@ -15,20 +20,22 @@ import { LoginDialogComponent } from './components/login/login-dialog.component'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class.teneo-dark-theme') dark = false;
   @HostBinding('class.teneo-app-theme') light = true;
 
   userName: Observable<string>;
+  msgSubscription: Subscription;
 
   constructor(
     private translate: TranslateService,
     private _store: Store<IAppState>,
+    private _state: StateService,
     public snackbar: MdSnackBar,
     private _element: ElementRef,
     public dialog: MdDialog
     ) {
+    this.userName = this._state.currentUserName$;
   }
 
   ngOnInit() {
@@ -36,14 +43,17 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang('en');
     const browserLang = this.translate.getBrowserLang();
     this.translate.use(browserLang.match(/en|nl|fr/) ? browserLang : 'en');
-    this._store.select('gui')
-      .map((guiState: IGuiState) => guiState.message)
+    this.msgSubscription = this._state.messages$
       .subscribe((msg) => {
         if (msg) {
           this.openSnackbar(msg.detail || msg.summary, msg.severity)
         }
       });
-    this.userName = this._store.select('authorization').map((authState: IAuthState) => authState.userName);
+    this._store.dispatch(new GuiValidRouteAction());
+  }
+
+  ngOnDestroy() {
+    this.msgSubscription.unsubscribe();
   }
 
   logOut() {
@@ -51,7 +61,7 @@ export class AppComponent implements OnInit {
   }
 
   logIn() {
-    let config: MdDialogConfig = {
+    const config: MdDialogConfig = {
       disableClose: false,
       hasBackdrop: true,
       // backdropClass: '',
@@ -64,11 +74,11 @@ export class AppComponent implements OnInit {
       //   right: ''
       // }
     };
-    const loginDialog = this.dialog.open(LoginDialogComponent, config);
+    this.dialog.open(LoginDialogComponent, config);
   }
 
   toggleFullscreen() {
-    let elem = this._element.nativeElement.querySelector('.content');
+    const elem = this._element.nativeElement.querySelector('.content');
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     } else if (elem.webkitRequestFullScreen) {
@@ -86,9 +96,9 @@ export class AppComponent implements OnInit {
   }
 
   openSnackbar(message: string, severity: string) {
-    let config = new MdSnackBarConfig();
+    const config = new MdSnackBarConfig();
     config.duration = 2000;
-    config.extraClasses = severity == 'error' ? ['sb-error'] : ['sb-success'];
+    config.extraClasses = severity === 'error' ? ['sb-error'] : ['sb-success'];
     this.snackbar.open(message, 'OK', config);
   }
 
@@ -96,7 +106,7 @@ export class AppComponent implements OnInit {
 
 @Component({
   moduleId: module.id,
-  selector: 'on-push',
+  selector: 'teneo-on-push',
   template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

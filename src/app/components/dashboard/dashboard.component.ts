@@ -14,9 +14,6 @@ export class DashboardComponent implements OnInit {
   constructor(private _state: StateService, private _store: Store<IAppState>) { }
 
   ngOnInit() {
-    if (!this._state.getCurrentUser()) {
-      this._store.dispatch(go('/home'));
-    }
   }
 
 }

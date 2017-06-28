@@ -12,7 +12,7 @@
       class="item"
       fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100"
       *ngFor="let org of (organizations | async)"
-      [organization]="org" [users]="orgUserList(org) | async"
+      [organization]="org"
       (editOrganization)="editOrganization($event)"
       (deleteOrganization)="deleteOrganization($event)"
     ></teneo-organization-detail>
