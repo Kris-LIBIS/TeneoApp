@@ -25,20 +25,23 @@ export class IngesterApiService extends JsonApiDatastore {
     this.setBaseUrl(environment.urlApiBase);
   }
 
-  getObjectList<T extends JsonApiModel>(modelType: ModelType<T>): Observable<T[]> {
-    return this.query(modelType).map((collection) => collection.data);
+  getObjectList<T extends JsonApiModel>(modelType: ModelType<T>, options?: any): Observable<T[]> {
+    if (!options) {
+      options = {}
+    }
+    return this.query(modelType, options).map((collection) => collection.data);
   }
 
-  getCollection<T extends JsonApiModel>(modelType: ModelType<T>, page?: number, per_page?: number): Observable<CollectionModel<T>> {
-    const options: { page?: number, per_page?: number } = {};
+  getCollection<T extends JsonApiModel>(modelType: ModelType<T>, page?: number, per_page?: number, options?: any): Observable<CollectionModel<T>> {
+    const opts = options ? options : {};
     if (page) {
-      options.page = page
+      opts.page = page
     }
     if (per_page) {
-      options.per_page = per_page
+      opts.per_page = per_page
     }
-    if (options) {
-      return this.query(modelType, options);
+    if (opts) {
+      return this.query(modelType, opts);
     }
     return this.query(modelType);
   }

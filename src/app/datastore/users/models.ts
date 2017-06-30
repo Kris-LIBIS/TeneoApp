@@ -1,19 +1,19 @@
 import { DbUser } from '../../services/ingester/models';
-import { IPageInfo, newPageInfo } from '../models';
 
 export interface IUserInfo {
   id: string;
-  name?: string;
-  role?: string;
+  name: string;
+  role: string;
   organization_ids?: string[];
 }
+
+export const USERS_LIST_FIELDS = 'id,name,role';
 
 export function newUserInfo(): IUserInfo {
   return {
     id: null,
     name: '',
-    role: 'submitter',
-    organization_ids: []
+    role: 'submitter'
   }
 }
 
@@ -22,7 +22,9 @@ export function dbUser2userInfo(user: DbUser): IUserInfo {
   result.id = user.id;
   result.name = user.name;
   result.role = user.role;
-  result.organization_ids = user.organization_ids;
+  if (user.organization_ids) {
+    result.organization_ids = user.organization_ids;
+  }
   return result;
 }
 
@@ -30,13 +32,10 @@ export interface IUsersState {
   users: IUserInfo[];
   updating: boolean;
   lastUpdate: number;
-  page: IPageInfo;
 }
 
 export const INITIAL_USERS_STATE: IUsersState = {
   users: [],
   updating: false,
-  lastUpdate: 0,
-  page: newPageInfo()
+  lastUpdate: 0
 };
-

@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
   selector: 'teneo-select',
   template: `
     <md-select class="input-field"
-               placeholder="select organizations" title="Organizations"
+               placeholder="select {{name}}" title="{name}}"
                [formControl]="control"
                [multiple]="multiple">
       <md-option *ngFor="let option of options" [value]="option.id">{{option.name}}</md-option>
@@ -23,6 +23,7 @@ export class SelectComponent {
   @Input() options: any[];
   @Input() control: FormControl;
   @Input() multiple: boolean = false;
+  @Input() name: string;
 
   constructor() {
   }

@@ -8,10 +8,25 @@
 
 .input-field {
   width: 100%;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
+}
+
+.input-item {
+  margin: 0;
+}
+
+.input-group {
+  border-style: ridge;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-bottom: 0.5em;
 }
 
 .input-main {
   font-weight: bold;
   font-size: large;
+}
+
+.add-material-flow {
+  float: right;
 }

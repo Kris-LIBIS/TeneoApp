@@ -1,84 +1,117 @@
 import { Action } from '@ngrx/store';
 import { DbUser } from '../../services/ingester/models';
-import { CollectionModel } from 'ng-jsonapi/dist/models/collection.model';
 import { IUserInfo } from './models';
 
-export const USERS_LOAD_REQUEST = '[Users] Load request';
-export const USERS_LOAD_SUCCESS = '[Users] Load success';
-export const USERS_LOAD_FAILURE = '[Users] Load failure';
+// ----------------------------------------------------------------------------
+// --  Users List: get a summary list of users
+// ----------------------------------------------------------------------------
 
-export class UsersLoadRequestAction implements Action {
-  readonly type = USERS_LOAD_REQUEST;
+export const USERS_LIST_REQUEST = '[Users] List request';
+export const USERS_LIST_SUCCESS = '[Users] List success';
+export const USERS_LIST_FAILURE = '[Users] List failure';
 
-  constructor(public payload: {force?: boolean, page?: number, per_page?: number, more?: boolean}) {
+export class UsersListRequestAction implements Action {
+  readonly type = USERS_LIST_REQUEST;
+
+  constructor(public payload: { force?: boolean }) {
   }
 }
 
-export class UsersLoadSuccessAction implements Action {
-  readonly type = USERS_LOAD_SUCCESS;
+export class UsersListSuccessAction implements Action {
+  readonly type = USERS_LIST_SUCCESS;
 
-  constructor(public payload: {collection: CollectionModel<DbUser>, append?: boolean}  ) {
+  constructor(public payload: DbUser[]) {
   }
 }
 
-export class UsersLoadFailureAction implements Action {
-  readonly type = USERS_LOAD_FAILURE;
+export class UsersListFailureAction implements Action {
+  readonly type = USERS_LIST_FAILURE;
 
   constructor(public payload: any) {
   }
 }
 
-export const USERS_SAVE_REQUEST = '[Users] Save request';
-export const USERS_SAVE_SUCCESS = '[Users] Save success';
-export const USERS_SAVE_FAILURE = '[Users] Save failure';
+// ----------------------------------------------------------------------------
+// -- User Load: load full user info from the API server
+// ----------------------------------------------------------------------------
 
-export class UsersSaveRequestAction implements Action {
-  readonly type = USERS_SAVE_REQUEST;
+export const USER_LOAD_SUCCESS = '[User] Load success';
+export const USER_LOAD_FAILURE = '[User] Load failure';
 
-  constructor(public payload: IUserInfo) {
-  }
-}
-
-export class UsersSaveSuccessAction implements Action {
-  readonly type = USERS_SAVE_SUCCESS;
+export class UserLoadSuccessAction implements Action {
+  readonly type = USER_LOAD_SUCCESS;
 
   constructor(public payload: DbUser) {
   }
 }
 
-export class UsersSaveFailureAction implements Action {
-  readonly type = USERS_SAVE_FAILURE;
+export class UserLoadFailureAction implements Action {
+  readonly type = USER_LOAD_FAILURE;
 
   constructor(public payload: any) {
   }
 }
 
-export const USERS_DELETE_REQUEST = '[Users] Delete request';
-export const USERS_DELETE_SUCCESS = '[Users] Delete success';
-export const USERS_DELETE_FAILURE = '[Users] Delete failure';
+// ----------------------------------------------------------------------------
+// -- User Save: save updated user info on the API server
+// ----------------------------------------------------------------------------
 
-export class UsersDeleteRequestAction implements Action {
-  readonly type = USERS_DELETE_REQUEST;
+export const USER_SAVE_REQUEST = '[User] Save request';
+export const USER_SAVE_SUCCESS = '[User] Save success';
+export const USER_SAVE_FAILURE = '[User] Save failure';
+
+export class UserSaveRequestAction implements Action {
+  readonly type = USER_SAVE_REQUEST;
 
   constructor(public payload: IUserInfo) {
   }
 }
 
-export class UsersDeleteSuccessAction implements Action {
-  readonly type = USERS_DELETE_SUCCESS;
+export class UserSaveSuccessAction implements Action {
+  readonly type = USER_SAVE_SUCCESS;
+
+  constructor(public payload: DbUser) {
+  }
+}
+
+export class UserSaveFailureAction implements Action {
+  readonly type = USER_SAVE_FAILURE;
 
   constructor(public payload: any) {
   }
 }
 
-export class UsersDeleteFailureAction implements Action {
-  readonly type = USERS_DELETE_FAILURE;
+// ----------------------------------------------------------------------------
+// -- User Delete: user will be deleted from the API server
+// ----------------------------------------------------------------------------
+
+export const USER_DELETE_REQUEST = '[User] Delete request';
+export const USER_DELETE_SUCCESS = '[User] Delete success';
+export const USER_DELETE_FAILURE = '[User] Delete failure';
+
+export class UserDeleteRequestAction implements Action {
+  readonly type = USER_DELETE_REQUEST;
+
+  constructor(public payload: IUserInfo) {
+  }
+}
+
+export class UserDeleteSuccessAction implements Action {
+  readonly type = USER_DELETE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UserDeleteFailureAction implements Action {
+  readonly type = USER_DELETE_FAILURE;
 
   constructor(public payload: any) {
   }
 }
 
 export type UsersActions =
-  UsersLoadRequestAction | UsersLoadSuccessAction | UsersLoadFailureAction |
-  UsersSaveRequestAction | UsersSaveSuccessAction | UsersSaveFailureAction |
-  UsersDeleteRequestAction | UsersDeleteSuccessAction | UsersDeleteFailureAction;
+  UsersListRequestAction | UsersListSuccessAction | UsersListFailureAction |
+  UserLoadSuccessAction | UserLoadFailureAction |
+  UserSaveRequestAction | UserSaveSuccessAction | UserSaveFailureAction |
+  UserDeleteRequestAction | UserDeleteSuccessAction | UserDeleteFailureAction;

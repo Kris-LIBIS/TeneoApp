@@ -1,21 +1,23 @@
-import { Component, ContentChild, ContentChildren, OnDestroy, OnInit, Query, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { MdDialog, MdDialogConfig } from '@angular/material';
-import { IAppState } from '../../datastore/reducer';
+import { IAppState, latestFrom } from '../../datastore/reducer';
 import { Store } from '@ngrx/store';
-import { IOrganizationInfo, IOrganizationsState, newOrganizationInfo } from '../../datastore/organizations/models';
-import { IUserInfo, IUsersState } from '../../datastore/users/models';
-import { IPageInfo } from '../../datastore/models';
 import {
-  OrganizationDeleteRequestAction, OrganizationSaveRequestAction,
-  OrganizationsLoadRequestAction
+  dbOrganization2organizationInfo, IOrganizationInfo, IOrganizationsState,
+  newOrganizationInfo
+} from '../../datastore/organizations/models';
+import { IUserInfo, IUsersState } from '../../datastore/users/models';
+import {
+  OrganizationDeleteRequestAction, OrganizationLoadFailureAction, OrganizationLoadSuccessAction, OrganizationSaveRequestAction,
+  OrganizationsListRequestAction,
 } from '../../datastore/organizations/actions';
-import { UsersLoadRequestAction } from '../../datastore/users/actions';
-import * as _ from 'lodash';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrganizationEditComponent } from './organization-edit.component';
+import { UsersListRequestAction } from '../../datastore/users/actions';
+import { IngesterApiService } from '../../services/ingester/ingester-api.service';
+import { DbOrganization } from '../../services/ingester/models';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'teneo-organizations',
@@ -26,11 +28,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
 
   organizations: Observable<IOrganizationInfo[]>;
   lastUpdate: Observable<number>;
-
   users: Observable<IUserInfo[]>;
-  usersSubscription: Subscription;
-
-  dialogSubscription: Subscription;
 
   editDialog: MdDialogConfig = {
     disableClose: false,
@@ -54,68 +52,74 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
     }
   };
 
-  pageInfo: Observable<IPageInfo>;
-
   constructor(private _store: Store<IAppState>,
+              private _api: IngesterApiService,
               public   dialog: MdDialog) {
     const state$: Observable<IOrganizationsState> = this._store.select('organizations');
     this.organizations = state$.map(state => state.organizations);
     this.lastUpdate = state$.map(state => state.lastUpdate);
-    this.pageInfo = state$.map(state => state.page);
     this.users = this._store.select('users').map((state: IUsersState) => state.users);
-    this.lastUpdate = state$.map(state => state.lastUpdate);
   }
 
   ngOnInit() {
-    this.usersSubscription = this.users.subscribe(users => this.editDialog.data.options = users);
-    this._store.dispatch(new OrganizationsLoadRequestAction({force: false, page: 1}));
-    this._store.dispatch(new UsersLoadRequestAction({force: false, page: 1, per_page: 50}));
+    this._store.dispatch(new OrganizationsListRequestAction({force: false}));
+    this._store.dispatch(new UsersListRequestAction({force: false}));
   }
 
   ngOnDestroy() {
-    this.usersSubscription.unsubscribe();
-  }
-
-  getMore(page: number) {
-    this._store.dispatch(new OrganizationsLoadRequestAction({force: true, page: page, more: true}));
   }
 
   reload() {
-    this._store.dispatch(new OrganizationsLoadRequestAction({force: true, page: 1}));
-  }
-
-  newOrganization() {
-    this.editDialog.data.organization = newOrganizationInfo();
-    this.openEditDialog();
-  }
-
-  editOrganization(org) {
-    this.editDialog.data.organization = org;
-    this.openEditDialog();
+    this._store.dispatch(new OrganizationsListRequestAction({force: true}));
   }
 
   deleteOrganization(org: IOrganizationInfo) {
     this.confirmationDialog.data.title = `Deleting organization '${org.name}'`;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, this.confirmationDialog);
-    const subscription = dialogRef.afterClosed()
+    dialogRef.afterClosed()
       .subscribe((result) => {
           if (result) {
             this._store.dispatch(new OrganizationDeleteRequestAction(org));
           }
-          subscription.unsubscribe();
-        }
+        },
+        err => console.log(err)
       );
   }
 
-  openEditDialog() {
-    const dialogRef = this.dialog.open(OrganizationEditComponent, this.editDialog);
-    this.dialogSubscription = dialogRef.afterClosed()
-      .subscribe((data: IOrganizationInfo) => {
-          if (data) {
-            this._store.dispatch(new OrganizationSaveRequestAction(data));
-          }
-          this.dialogSubscription.unsubscribe();
-        }
+  editOrganization(org) {
+    this._api.getObject(DbOrganization, org.id)
+      .subscribe((org) => {
+          this._store.dispatch(new OrganizationLoadSuccessAction(org));
+          this.editDialog.data.organization = dbOrganization2organizationInfo(org);
+          this.openEditDialog(this.editDialog);
+        },
+        (err) => this._store.dispatch(new OrganizationLoadFailureAction({error: {type: 'Error', message: err.toString()}}))
+      );
+  }
+
+  newOrganization() {
+    this.editDialog.data.organization = newOrganizationInfo();
+    this.editDialog.data.organization.material_flow = {};
+    this.editDialog.data.organization.producer = {};
+    this.openEditDialog(this.editDialog);
+  }
+
+  openEditDialog(dialogConfig: MdDialogConfig) {
+    latestFrom(this.users)
+      .subscribe(users => {
+          dialogConfig.data.options = users;
+          const dialogRef = this.dialog.open(OrganizationEditComponent, dialogConfig);
+          dialogRef.afterClosed()
+            .subscribe((data) => {
+                if (data) {
+                  data.material_flow = _.fromPairs((data.material_flow).map(x => [x.name, x.id]));
+                  this._store.dispatch(new OrganizationSaveRequestAction(data));
+                }
+              },
+              err => console.log(err)
+            );
+        },
+        err => console.log(err)
       );
   }
 

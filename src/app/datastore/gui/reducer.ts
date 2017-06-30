@@ -3,10 +3,13 @@ import * as ud from 'updeep';
 import { GUI_MESSAGE_ADD, GUI_MESSAGE_CLEAR, GuiActions } from './actions';
 import { AUTH_FAILURE, AUTH_SUCCESS, AuthActions } from '../authorization/actions';
 import {
-  USERS_LOAD_FAILURE, USERS_SAVE_FAILURE, USERS_DELETE_FAILURE,
-  UsersLoadFailureAction, UsersSaveFailureAction, UsersDeleteFailureAction
+  USERS_LIST_FAILURE, USER_LOAD_FAILURE, USER_SAVE_FAILURE, USER_DELETE_FAILURE,
+  UsersListFailureAction, UserLoadFailureAction, UserSaveFailureAction, UserDeleteFailureAction,
 } from '../users/actions';
-import { OrganizationsLoadFailureAction, ORGS_LOAD_FAILURE } from '../organizations/actions';
+import {
+  ORGS_LIST_FAILURE, ORG_LOAD_FAILURE, ORG_SAVE_FAILURE, ORG_DELETE_FAILURE,
+  OrganizationsListFailureAction, OrganizationLoadFailureAction, OrganizationSaveFailureAction, OrganizationDeleteFailureAction,
+} from '../organizations/actions';
 
 export interface IGuiMessage {
   severity: string;
@@ -24,12 +27,13 @@ export const INITIAL_GUI_STATE: IGuiState = {
 
 type GuiReducerActions =
   GuiActions | AuthActions |
-  UsersLoadFailureAction | UsersSaveFailureAction | UsersDeleteFailureAction |
-  OrganizationsLoadFailureAction;
+  UsersListFailureAction | UserLoadFailureAction | UserSaveFailureAction | UserDeleteFailureAction |
+  OrganizationsListFailureAction | OrganizationLoadFailureAction | OrganizationSaveFailureAction | OrganizationDeleteFailureAction;
 
 export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiReducerActions) {
   const updateState = ud(ud._, state);
   switch (action.type) {
+
     case GUI_MESSAGE_ADD: {
       const message: IGuiMessage = action.payload;
       return updateState({message: message});
@@ -50,10 +54,14 @@ export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiRedu
     }
 
     case AUTH_FAILURE:
-    case USERS_LOAD_FAILURE:
-    case USERS_SAVE_FAILURE:
-    case USERS_DELETE_FAILURE:
-    case ORGS_LOAD_FAILURE: {
+    case USERS_LIST_FAILURE:
+    case USER_LOAD_FAILURE:
+    case USER_SAVE_FAILURE:
+    case USER_DELETE_FAILURE:
+    case ORGS_LIST_FAILURE:
+    case ORG_LOAD_FAILURE:
+    case ORG_SAVE_FAILURE:
+    case ORG_DELETE_FAILURE: {
       return updateState({
         message: {
           severity: 'error',

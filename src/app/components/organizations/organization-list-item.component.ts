@@ -3,11 +3,11 @@ import { IOrganizationInfo } from '../../datastore/organizations/models';
 
 @Component({
   moduleId: module.id,
-  selector: 'teneo-organization-detail',
-  templateUrl: './organization-detail.component.html',
-  styleUrls: ['./organization-detail.component.scss']
+  selector: 'teneo-organization-list-item',
+  templateUrl: './organization-list-item.component.html',
+  styleUrls: ['./organization-list-item.component.scss']
 })
-export class OrganizationDetailComponent implements OnInit {
+export class OrganizationListItemComponent implements OnInit {
 
   @Input() organization: IOrganizationInfo;
 

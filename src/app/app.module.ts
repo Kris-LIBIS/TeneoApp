@@ -37,7 +37,7 @@ import { AccessRightsComponent } from './components/access-rights/access-rights.
 import { RetentionPeriodsComponent } from './components/retention-periods/retention-periods.component';
 import { IngesterApiService } from './services/ingester/ingester-api.service';
 import { UserEffects } from './datastore/users/effects';
-import { UserDetailComponent } from './components/users/user-detail.component';
+import { UserListItemComponent } from './components/users/user-list-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationEffects } from './datastore/organizations/effects';
 import { UserEditDialogComponent } from './components/users/user-edit-dialog.component';
@@ -45,13 +45,13 @@ import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog.compo
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
 import { ListComponent } from './components/base/list.component';
 import { SelectComponent } from './components/base/select.component';
-import { OrganizationDetailComponent } from './components/organizations/organization-detail.component';
+import { OrganizationListItemComponent } from './components/organizations/organization-list-item.component';
 import { EditDialogComponent } from './dialogs/edit-dialog.component';
 import { OrganizationEditComponent } from './components/organizations/organization-edit.component';
 import { MenuComponent } from './components/layout/menu.component';
 import { ToolbarComponent } from './components/layout/toolbar.component';
 import { GuiEffects } from './datastore/gui/effects';
-
+import { PagedListComponent } from './components/base/paged-list.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -73,12 +73,13 @@ export function HttpLoaderFactory(http: Http) {
     RepresentationsComponent,
     AccessRightsComponent,
     RetentionPeriodsComponent,
-    UserDetailComponent,
-    OrganizationDetailComponent,
+    UserListItemComponent,
+    OrganizationListItemComponent,
     UserEditDialogComponent,
     ConfirmationDialogComponent,
     InfiniteScrollDirective,
     ListComponent,
+    PagedListComponent,
     SelectComponent,
     EditDialogComponent,
     OrganizationEditComponent,

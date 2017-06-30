@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
@@ -12,16 +12,13 @@ import { of } from 'rxjs/observable/of';
 
 import { IngesterApiService } from '../../services/ingester/ingester-api.service';
 import {
-  ORG_DELETE_REQUEST,
-  ORG_SAVE_REQUEST, OrganizationDeleteFailureAction, OrganizationDeleteSuccessAction, OrganizationSaveFailureAction,
-  OrganizationSaveSuccessAction,
-  OrganizationsLoadFailureAction,
-  OrganizationsLoadSuccessAction,
-  ORGS_LOAD_REQUEST
+  ORGS_LIST_REQUEST, OrganizationsListSuccessAction, OrganizationsListFailureAction,
+  ORG_SAVE_REQUEST, OrganizationSaveSuccessAction, OrganizationSaveFailureAction,
+  ORG_DELETE_REQUEST, OrganizationDeleteSuccessAction, OrganizationDeleteFailureAction,
 } from './actions';
 import { DbOrganization } from '../../services/ingester/models';
 import { IAppState } from '../reducer';
-import { CollectionModel } from 'ng-jsonapi/dist/models/collection.model';
+import { ORGS_LIST_FIELDS } from './models';
 
 
 @Injectable()
@@ -34,16 +31,17 @@ export class OrganizationEffects {
 
   // noinspection JSUnusedGlobalSymbols
   @Effect({dispatch: true})
-  loadOrganizations: Observable<Action> = this.action$
-    .ofType(ORGS_LOAD_REQUEST)
+  listOrganizations$: Observable<Action> = this.action$
+    .ofType(ORGS_LIST_REQUEST)
     .withLatestFrom(this.state$)
     .filter(([action, state]) => state.organizations.updating)
     .map(([action, state]) => action.payload)
-    .switchMap((payload) => {
-      const orgs$: Observable<CollectionModel<DbOrganization>> = this.api.getCollection(DbOrganization, payload.page, payload.per_page);
+    .switchMap(() => {
+      const orgs$: Observable<DbOrganization[]> = this.api.getObjectList(DbOrganization,
+        {nopaging: true, fields: {organizations: ORGS_LIST_FIELDS}});
       return orgs$
-        .map(orgs => new OrganizationsLoadSuccessAction({collection: orgs, append: (payload.more)}))
-        .catch((err) => of(new OrganizationsLoadFailureAction({error: {type: 'Error', message: err.toString()}})));
+        .map(orgs => new OrganizationsListSuccessAction(orgs))
+        .catch((err) => of(new OrganizationsListFailureAction({error: {type: 'Error', message: err.toString()}})));
     });
 
   // noinspection JSUnusedGlobalSymbols

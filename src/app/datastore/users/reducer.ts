@@ -1,11 +1,11 @@
 import * as ud from 'updeep';
 import * as _ from 'lodash';
-import { meta2PageInfo } from '../models';
-import { dbUser2userInfo, INITIAL_USERS_STATE, IUserInfo, IUsersState } from './models';
+import { dbUser2userInfo, INITIAL_USERS_STATE, IUsersState, USERS_LIST_FIELDS } from './models';
 
 import {
-  USERS_LOAD_REQUEST, USERS_LOAD_SUCCESS, USERS_LOAD_FAILURE,
-  USERS_SAVE_SUCCESS, USERS_DELETE_SUCCESS, UsersActions
+  UsersActions,
+  USERS_LIST_REQUEST, USERS_LIST_SUCCESS, USERS_LIST_FAILURE,
+  USER_LOAD_SUCCESS, USER_SAVE_SUCCESS, USER_DELETE_SUCCESS,
 } from './actions';
 import { replaceOrAppend } from '../reducer';
 
@@ -13,38 +13,34 @@ export function usersReducer(state: IUsersState = ud.freeze(INITIAL_USERS_STATE)
   const updateState = ud(ud._, state);
   switch (action.type) {
 
-    case USERS_LOAD_REQUEST:
+    case USERS_LIST_REQUEST:
       if (action.payload.force || (!state.updating && (Date.now() - state.lastUpdate) > 600000)) {
         return updateState({updating: true});
       }
       return state;
 
-    case USERS_LOAD_SUCCESS:
-      let userList = action.payload.collection.data.map(user => dbUser2userInfo(user));
-      if (action.payload.append) {
-        userList = _.concat(state.users, userList);
-      }
-      const info = action.payload.collection.meta;
+    case USERS_LIST_SUCCESS:
+      let userList = action.payload.map(user => dbUser2userInfo(user));
       return updateState({
         users: userList,
         updating: false,
-        lastUpdate: Date.now(),
-        page: meta2PageInfo(info)
+        lastUpdate: Date.now()
       });
 
-    case USERS_SAVE_SUCCESS:
-      return updateState({
-        users: replaceOrAppend(state.users, dbUser2userInfo(action.payload))
-
-      });
-
-    case USERS_DELETE_SUCCESS:
-      return updateState({
-        users: _.reject(state.users, (user) => user.id === action.payload.id)
-      });
-
-    case USERS_LOAD_FAILURE:
+    case USERS_LIST_FAILURE:
       return updateState({updating: false});
+
+    case USER_SAVE_SUCCESS:
+    case USER_LOAD_SUCCESS:
+      return updateState({
+        users: replaceOrAppend(state.users,
+          _.pick(dbUser2userInfo(action.payload), USERS_LIST_FIELDS.split(',')))
+      });
+
+    case USER_DELETE_SUCCESS:
+      return updateState({
+        users: _.reject(state.users, user => user.id === action.payload.id)
+      });
 
     default:
       return state;

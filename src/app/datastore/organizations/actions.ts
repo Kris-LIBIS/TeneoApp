@@ -3,30 +3,59 @@ import { DbOrganization } from '../../services/ingester/models';
 import { CollectionModel } from 'ng-jsonapi/dist/models/collection.model';
 import { IOrganizationInfo } from './models';
 
-export const ORGS_LOAD_REQUEST = '[Organizations] Load request';
-export const ORGS_LOAD_SUCCESS = '[Organizations] Load success';
-export const ORGS_LOAD_FAILURE = '[Organizations] Load failure';
+// ----------------------------------------------------------------------------
+// --  Organizations List: get a summary list of organizations
+// ----------------------------------------------------------------------------
 
-export class OrganizationsLoadRequestAction implements Action {
-  readonly type = ORGS_LOAD_REQUEST;
+export const ORGS_LIST_REQUEST = '[Organizations] List request';
+export const ORGS_LIST_SUCCESS = '[Organizations] List success';
+export const ORGS_LIST_FAILURE = '[Organizations] List failure';
 
-  constructor(public payload: { force?: boolean, page?: number, per_page?: number, more?: boolean }) {
+export class OrganizationsListRequestAction implements Action {
+  readonly type = ORGS_LIST_REQUEST;
+
+  constructor(public payload: { force?: boolean }) {
   }
 }
 
-export class OrganizationsLoadSuccessAction implements Action {
-  readonly type = ORGS_LOAD_SUCCESS;
+export class OrganizationsListSuccessAction implements Action {
+  readonly type = ORGS_LIST_SUCCESS;
 
-  constructor(public payload: { collection: CollectionModel<DbOrganization>, append?: boolean }) {
+  constructor(public payload: DbOrganization[]) {
   }
 }
 
-export class OrganizationsLoadFailureAction implements Action {
-  readonly type = ORGS_LOAD_FAILURE;
+export class OrganizationsListFailureAction implements Action {
+  readonly type = ORGS_LIST_FAILURE;
 
   constructor(public payload: any) {
   }
 }
+
+// ----------------------------------------------------------------------------
+// -- Organization Load: load full organization info from the API server
+// ----------------------------------------------------------------------------
+
+export const ORG_LOAD_SUCCESS = '[Organization] Load success';
+export const ORG_LOAD_FAILURE = '[Organization] Load failure';
+
+export class OrganizationLoadSuccessAction implements Action {
+  readonly type = ORG_LOAD_SUCCESS;
+
+  constructor(public payload: DbOrganization) {
+  }
+}
+
+export class OrganizationLoadFailureAction implements Action {
+  readonly type = ORG_LOAD_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
+// ----------------------------------------------------------------------------
+// -- Organization Save: save updated orgnaization info on the API server
+// ----------------------------------------------------------------------------
 
 export const ORG_SAVE_REQUEST = '[Organization] Save request';
 export const ORG_SAVE_SUCCESS = '[Organization] Save success';
@@ -52,6 +81,10 @@ export class OrganizationSaveFailureAction implements Action {
   constructor(public payload: any) {
   }
 }
+
+// ----------------------------------------------------------------------------
+// -- Organization Delete: organization will be deleted from the API server
+// ----------------------------------------------------------------------------
 
 export const ORG_DELETE_REQUEST = '[Organization] Delete request';
 export const ORG_DELETE_SUCCESS = '[Organization] Delete success';
@@ -79,6 +112,7 @@ export class OrganizationDeleteFailureAction implements Action {
 }
 
 export type OrganizationsActions =
-  OrganizationsLoadRequestAction | OrganizationsLoadSuccessAction | OrganizationsLoadFailureAction |
+  OrganizationsListRequestAction | OrganizationsListSuccessAction | OrganizationsListFailureAction |
+  OrganizationLoadSuccessAction | OrganizationLoadFailureAction |
   OrganizationSaveRequestAction | OrganizationSaveSuccessAction | OrganizationSaveFailureAction |
   OrganizationDeleteRequestAction | OrganizationDeleteSuccessAction | OrganizationDeleteFailureAction;

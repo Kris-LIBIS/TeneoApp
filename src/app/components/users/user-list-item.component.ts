@@ -3,11 +3,11 @@ import { IUserInfo } from '../../datastore/users/models';
 
 @Component({
   moduleId: module.id,
-  selector: 'teneo-user-detail',
-  templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.scss']
+  selector: 'teneo-user-list-item',
+  templateUrl: './user-list-item.component.html',
+  styleUrls: ['./user-list-item.component.scss']
 })
-export class UserDetailComponent implements OnInit {
+export class UserListItemComponent implements OnInit {
 
   @Input() user: IUserInfo;
 

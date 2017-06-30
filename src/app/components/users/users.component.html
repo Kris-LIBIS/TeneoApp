@@ -1,22 +1,20 @@
 <teneo-list
   title="List of Users"
   [lastUpdate]="lastUpdate | async"
-  [pageInfo]="pageInfo | async"
-  (getMore)="getMore($event)"
   (newObject)="newUser()"
   (reload)="reload()"
 >
 
   <div class="list" fxLayout.gt-md="row" fxLayout.lt-md="row" fxLayoutWrap fxLayoutAlign="stretch">
 
-    <teneo-user-detail
+    <teneo-user-list-item
       class="item"
       fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100"
       *ngFor="let user of (users | async)"
       [user]="user"
       (editUser)="editUser($event)"
       (deleteUser)="deleteUser($event)"
-    ></teneo-user-detail>
+    ></teneo-user-list-item>
 
   </div>
 

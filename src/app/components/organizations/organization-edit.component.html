@@ -12,9 +12,58 @@
              formControlName="code">
     </md-input-container>
 
+    <md-input-container class="input-field">
+      <input mdInput placeholder="ingest dir" title="Ingest folder"
+             formControlName="ingest_dir">
+    </md-input-container>
+
+    <div formGroupName="producer">
+
+      <h4>Producer</h4>
+
+      <div fxLayout="cols" fxLayoutAlign="stretch">
+
+        <md-input-container fxFlex>
+          <input mdInput placeholder="id" title="Rosetta Identifier"
+                 formControlName="id">
+        </md-input-container>
+
+        <md-input-container fxFlex>
+          <input mdInput placeholder="agent" title="Producer Agent"
+                 formControlName="agent">
+        </md-input-container>
+
+        <md-input-container fxFlex>
+          <input mdInput placeholder="password" title="Password"
+                 formControlName="password">
+        </md-input-container>
+
+      </div>
+
+    </div>
+
+    <div formArrayName="material_flow" class="input-group">
+      <button class="add-material-flow" md-button color="primary" (click)="addMaterialFlow()">ADD</button>
+      <h4>Material Flows</h4>
+      <div class="input-item" *ngFor="let mf of formGroup.controls['material_flow'].controls; let i=index">
+        <div [formGroupName]="i" fxLayout="cols">
+          <md-input-container fxFlex>
+            <input mdInput placeholder="name" title="Name"
+                   formControlName="name">
+          </md-input-container>
+          <md-input-container fxFlex>
+            <input mdInput placeholder="ID" title="Identifier"
+                   formControlName="id">
+          </md-input-container>
+          <button md-button color="primary" [disabled]="formGroup.controls['material_flow'].controls.length < 2" (click)="removeMaterialFlow(i)">REMOVE</button>
+        </div>
+      </div>
+    </div>
+
     <teneo-select class="input-field"
                   [control]="formGroup.controls['user_ids']"
                   [options]="data.options"
+                  name="users"
                   multiple="true"
     >
     </teneo-select>

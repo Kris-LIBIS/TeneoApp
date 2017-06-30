@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IPageInfo } from '../../datastore/models';
 
 @Component({
-  selector: 'teneo-list',
+  selector: 'teneo-paged-list',
   template: `
     <md-card>
 
@@ -18,6 +18,7 @@ import { IPageInfo } from '../../datastore/models';
       </md-card-content>
 
       <md-card-actions align="end">
+        <button md-button *ngIf="hasMore" (click)="getMore.next(pageInfo.current + 1)">MORE ({{remaining}})</button>
         <div class="card-buttons">
 
           <button md-button color="primary" (click)="newObject.next()">
@@ -41,9 +42,17 @@ import { IPageInfo } from '../../datastore/models';
     }
   `]
 })
-export class ListComponent {
+export class PagedListComponent {
   @Input() title: string;
   @Input() lastUpdate: number;
+  @Input()
+    set pageInfo(v: IPageInfo) {
+    if (v) {
+      this.hasMore = v.current < v.pages;
+      this.remaining = v.count - v.current * v.per_page;
+    }
+  };
+  @Output() getMore: EventEmitter<number> = new EventEmitter();
   @Output() newObject: EventEmitter<any> = new EventEmitter();
   @Output() reload: EventEmitter<any> = new EventEmitter();
 

@@ -11,6 +11,7 @@ import { INITIAL_ORGS_STATE, IOrganizationsState } from './organizations/models'
 import { usersReducer } from './users/reducer';
 import { orgsReducer } from './organizations/reducer';
 import * as _ from 'lodash';
+import { Observable, ObservableInput } from 'rxjs/Observable';
 
 export interface IAppState {
   router: RouterState;
@@ -61,4 +62,8 @@ export function replaceOrAppend(array: any[], newObject: any) {
   const l = array.length + 1;
   const i = (_.findIndex(array, _.matchesProperty('id', newObject.id)) + l) % l;
   return _.concat(_.slice(array, 0, i), [newObject],_.slice(array, i + 1));
+}
+
+export function latestFrom(observable: Observable<any>): Observable<any> {
+  return Observable.of(0).withLatestFrom(observable, (x,o) => o);
 }

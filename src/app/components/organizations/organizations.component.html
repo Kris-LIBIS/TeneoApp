@@ -1,21 +1,20 @@
 <teneo-list
   title="List of Organizations"
   [lastUpdate]="lastUpdate | async"
-  [pageInfo]="pageInfo | async"
-  (getMore)="getMore($event)"
   (newObject)="newOrganization()"
   (reload)="reload()"
 >
+
   <div class="list" fxLayout.gt-md="row" fxLayout.lt-md="row" fxLayoutWrap fxLayoutAlign="stretch">
 
-    <teneo-organization-detail
+    <teneo-organization-list-item
       class="item"
       fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100"
       *ngFor="let org of (organizations | async)"
       [organization]="org"
       (editOrganization)="editOrganization($event)"
       (deleteOrganization)="deleteOrganization($event)"
-    ></teneo-organization-detail>
+    ></teneo-organization-list-item>
 
 
   </div>
