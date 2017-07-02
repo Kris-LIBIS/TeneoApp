@@ -13,6 +13,7 @@ export class UserListItemComponent implements OnInit {
 
   @Output() editUser: EventEmitter<IUserInfo> = new EventEmitter();
   @Output() deleteUser: EventEmitter<IUserInfo> = new EventEmitter();
+  @Output() openOrganizations: EventEmitter<IUserInfo> = new EventEmitter();
 
   constructor() { }
 

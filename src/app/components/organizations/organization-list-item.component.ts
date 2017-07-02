@@ -13,6 +13,7 @@ export class OrganizationListItemComponent implements OnInit {
 
   @Output() editOrganization: EventEmitter<IOrganizationInfo> = new EventEmitter();
   @Output() deleteOrganization: EventEmitter<IOrganizationInfo> = new EventEmitter();
+  @Output() openJobs: EventEmitter<IOrganizationInfo> = new EventEmitter();
 
   constructor() { }
 

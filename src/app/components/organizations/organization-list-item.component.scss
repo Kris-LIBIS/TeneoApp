@@ -22,3 +22,21 @@
   padding-left: 1em;
   font-size: large;
 }
+
+.button-toolbar {
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.button-left {
+  position: absolute;
+  left: 0;
+}
+
+.button-right {
+  position: absolute;
+  right: 0;
+}

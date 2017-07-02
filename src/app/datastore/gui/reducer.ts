@@ -1,6 +1,6 @@
 import * as ud from 'updeep';
 
-import { GUI_MESSAGE_ADD, GUI_MESSAGE_CLEAR, GuiActions } from './actions';
+import { GUI_MESSAGE_ADD, GUI_MESSAGE_CLEAR, GUI_SELECT_ORGANIZATION, GUI_SELECT_USER, GuiActions } from './actions';
 import { AUTH_FAILURE, AUTH_SUCCESS, AuthActions } from '../authorization/actions';
 import {
   USERS_LIST_FAILURE, USER_LOAD_FAILURE, USER_SAVE_FAILURE, USER_DELETE_FAILURE,
@@ -10,20 +10,8 @@ import {
   ORGS_LIST_FAILURE, ORG_LOAD_FAILURE, ORG_SAVE_FAILURE, ORG_DELETE_FAILURE,
   OrganizationsListFailureAction, OrganizationLoadFailureAction, OrganizationSaveFailureAction, OrganizationDeleteFailureAction,
 } from '../organizations/actions';
+import { IGuiMessage, IGuiState, INITIAL_GUI_STATE } from './models';
 
-export interface IGuiMessage {
-  severity: string;
-  summary: string;
-  detail: string;
-}
-
-export interface IGuiState {
-  message: IGuiMessage;
-}
-
-export const INITIAL_GUI_STATE: IGuiState = {
-  message: undefined
-};
 
 type GuiReducerActions =
   GuiActions | AuthActions |
@@ -41,6 +29,18 @@ export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiRedu
 
     case GUI_MESSAGE_CLEAR: {
       return updateState({message: undefined});
+    }
+
+    case GUI_SELECT_USER: {
+      return updateState({
+        breadcrumbs: ud({user: action.payload}, state.breadcrumbs)
+      });
+    }
+
+    case GUI_SELECT_ORGANIZATION: {
+      return updateState({
+        breadcrumbs: ud({organization: action.payload}, state.breadcrumbs)
+      })
     }
 
     case AUTH_SUCCESS: {

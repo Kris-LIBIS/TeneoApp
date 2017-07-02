@@ -43,3 +43,22 @@ body {
 .color-white {
   color: white;
 }
+
+.ui-breadcrumb {
+  margin: 0;
+  padding: 0;
+  padding: .3em;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      vertical-align: middle;
+      .ui-menuitem-link {
+        text-decoration: none;
+      }
+    }
+  }
+}

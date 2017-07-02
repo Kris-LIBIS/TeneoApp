@@ -5,7 +5,7 @@ import { AuthorizationService, ITokenData } from '../authorization/authorization
 import { IUserInfo, newUserInfo } from '../../datastore/users/models';
 import 'rxjs/add/operator/takeLast';
 import { Observable } from 'rxjs/Observable';
-import { IGuiMessage, IGuiState } from '../../datastore/gui/reducer';
+import { IGuiMessage, IGuiState } from '../../datastore/gui/models';
 
 @Injectable()
 export class StateService {

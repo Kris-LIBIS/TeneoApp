@@ -74,6 +74,9 @@
         <!--suppress HtmlUnknownTarget -->
         <img class="logo" src="assets/images/teneo.png" alt="Teneo App">
         <div>
+          <teneo-breadcrumb [bcMenu]="breadcrumbs | async"></teneo-breadcrumb>
+        </div>
+        <div>
           <button md-button *ngIf="!(userName | async)" (click)="logIn()">LOGIN</button>
           <button md-button *ngIf="(userName | async)" [mdMenuTriggerFor]="usermenu">{{userName | async}}</button>
           <md-menu #usermenu="mdMenu">

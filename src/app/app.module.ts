@@ -52,6 +52,7 @@ import { MenuComponent } from './components/layout/menu.component';
 import { ToolbarComponent } from './components/layout/toolbar.component';
 import { GuiEffects } from './datastore/gui/effects';
 import { PagedListComponent } from './components/base/paged-list.component';
+import { BreadcrumbComponent } from './components/layout/breadcrumb.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -85,6 +86,7 @@ export function HttpLoaderFactory(http: Http) {
     OrganizationEditComponent,
     MenuComponent,
     ToolbarComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     CommonModule,

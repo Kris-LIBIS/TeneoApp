@@ -27,6 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   userName: Observable<string>;
   msgSubscription: Subscription;
 
+  breadcrumbs: Observable<{}>;
+
   constructor(
     private translate: TranslateService,
     private _store: Store<IAppState>,

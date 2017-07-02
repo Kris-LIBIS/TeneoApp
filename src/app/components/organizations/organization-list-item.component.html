@@ -13,15 +13,31 @@
 
   </md-card-content>
 
-  <md-card-actions align="end">
+  <md-card-actions>
 
-    <button md-button color="warn" (click)="deleteOrganization.next(organization)">
-      DELETE
-    </button>
+    <md-toolbar class="button-toolbar">
 
-    <button md-button color="primary" (click)="editOrganization.next(organization)">
-      EDIT
-    </button>
+      <div class="button-left">
+
+        <button md-button color="primary" (click)="openJobs.next(organization)">
+          JOBS
+        </button>
+
+      </div>
+
+      <div class="button-right">
+
+        <button md-button color="warn" (click)="deleteOrganization.next(organization)">
+          DELETE
+        </button>
+
+        <button md-button color="primary" (click)="editOrganization.next(organization)">
+          EDIT
+        </button>
+
+      </div>
+
+    </md-toolbar>
 
   </md-card-actions>
 

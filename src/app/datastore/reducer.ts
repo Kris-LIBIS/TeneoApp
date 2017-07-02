@@ -5,13 +5,14 @@ import { compose } from '@ngrx/core/compose';
 import { environment } from '../../environments/environment';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import { authReducer, IAuthState, INITIAL_AUTH_STATE } from './authorization/reducer';
-import { IGuiState, INITIAL_GUI_STATE, guiReducer } from './gui/reducer';
 import { INITIAL_USERS_STATE, IUsersState } from './users/models';
 import { INITIAL_ORGS_STATE, IOrganizationsState } from './organizations/models';
 import { usersReducer } from './users/reducer';
 import { orgsReducer } from './organizations/reducer';
 import * as _ from 'lodash';
-import { Observable, ObservableInput } from 'rxjs/Observable';
+import { Observable, } from 'rxjs/Observable';
+import { IGuiState, INITIAL_GUI_STATE } from './gui/models';
+import { guiReducer } from './gui/reducer';
 
 export interface IAppState {
   router: RouterState;

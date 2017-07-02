@@ -18,6 +18,7 @@ import { UsersListRequestAction } from '../../datastore/users/actions';
 import { IngesterApiService } from '../../services/ingester/ingester-api.service';
 import { DbOrganization } from '../../services/ingester/models';
 import * as _ from 'lodash';
+import { go } from '@ngrx/router-store';
 
 @Component({
   selector: 'teneo-organizations',
@@ -121,6 +122,10 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
         },
         err => console.log(err)
       );
+  }
+
+  openJobs(org: IOrganizationInfo) {
+    this._store.dispatch(go('/jobs'));
   }
 
 }

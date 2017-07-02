@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
-import { IGuiMessage } from './reducer';
+import { IGuiMessage } from './models';
+import { IUserInfo } from '../users/models';
+import { IOrganizationInfo } from '../organizations/models';
 
 export const GUI_MESSAGE_ADD = '[GUI] message add';
 export const GUI_MESSAGE_CLEAR = '[GUI] message clear';
@@ -20,4 +22,18 @@ export class GuiValidRouteAction implements Action {
   readonly type = GUI_VALID_ROUTE;
 }
 
-export type GuiActions = GuiMessageAddAction | GuiMessageClearAction | GuiValidRouteAction;
+export const GUI_SELECT_USER = '[GUI] select user';
+export const GUI_SELECT_ORGANIZATION = '[GUI] select organization';
+
+export class GuiSelectUserAction implements Action {
+  readonly type = GUI_SELECT_USER;
+  constructor(public payload: IUserInfo) {}
+}
+
+export class GuiSelectOrganizationAction implements Action {
+  readonly type = GUI_SELECT_ORGANIZATION;
+  constructor(public payload: IOrganizationInfo) {}
+}
+
+export type GuiActions = GuiMessageAddAction | GuiMessageClearAction | GuiValidRouteAction |
+  GuiSelectUserAction | GuiSelectOrganizationAction;

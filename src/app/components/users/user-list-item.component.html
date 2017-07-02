@@ -11,20 +11,33 @@
     <div class="label">Role:</div>
     <div class="value">{{user.role}}</div>
 
-    <!--<div class="label">Organizations:</div>-->
-    <!--<div class="value">{{organizations}}</div>-->
-
   </md-card-content>
 
   <md-card-actions class="actions" align="end">
 
-    <button md-button color="warn" (click)="deleteUser.next(user)">
-      DELETE
-    </button>
+    <md-toolbar class="button-toolbar">
 
-    <button md-button color="primary" (click)="editUser.next(user)">
-      EDIT
-    </button>
+      <div class="button-left">
+
+        <button md-button color="primary" (click)="openOrganizations.next(organization)">
+          ORGANIZATIONS
+        </button>
+
+      </div>
+
+      <div class="button-right">
+
+        <button md-button color="warn" (click)="deleteUser.next(user)">
+          DELETE
+        </button>
+
+        <button md-button color="primary" (click)="editUser.next(user)">
+          EDIT
+        </button>
+
+      </div>
+
+    </md-toolbar>
 
   </md-card-actions>
 
