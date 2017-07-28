@@ -37,7 +37,7 @@ export class OrganizationEditComponent implements OnInit {
       material_flow: this._fb.array(
         _.toPairs(data.material_flow)
         .map(pair =>  this._fb.group({name: [pair[0]], id: [pair[1]]}))),
-      user_ids: [data.user_ids],
+      user_ids: [data.users],
     });
   }
 
@@ -45,7 +45,7 @@ export class OrganizationEditComponent implements OnInit {
     (<FormArray>this.formGroup.controls.material_flow).push(this._fb.group({name: '', id: ''}));
   }
 
-  removeMaterialFlow(i:number) {
+  removeMaterialFlow(i: number) {
     (<FormArray>this.formGroup.controls.material_flow).removeAt(i);
 
   }

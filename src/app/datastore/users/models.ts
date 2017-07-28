@@ -1,13 +1,17 @@
 import { DbUser } from '../../services/ingester/models';
+import * as _ from "lodash";
 
 export interface IUserInfo {
   id: string;
   name: string;
   role: string;
-  organization_ids?: string[];
+  password?: string;
+  organizations?: string[];
+  links?: any;
 }
 
-export const USERS_LIST_FIELDS = 'id,name,role';
+export const USERS_LIST_FIELDS = 'id,name,role,org';
+export const USERS_SELECT_FIELDS = 'id,name,role,organizations';
 
 export function newUserInfo(): IUserInfo {
   return {
@@ -22,8 +26,13 @@ export function dbUser2userInfo(user: DbUser): IUserInfo {
   result.id = user.id;
   result.name = user.name;
   result.role = user.role;
-  if (user.organization_ids) {
-    result.organization_ids = user.organization_ids;
+  result.password = user.password;
+  if (user.organizations) {
+    result.organizations = user.organizations;
+  }
+  if (user.links) {
+    result.links = {};
+    _.forIn(user.links, (value, key) => result.links[key] = value._href);
   }
   return result;
 }

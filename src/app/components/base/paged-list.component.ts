@@ -56,7 +56,7 @@ export class PagedListComponent {
   @Output() newObject: EventEmitter<any> = new EventEmitter();
   @Output() reload: EventEmitter<any> = new EventEmitter();
 
-  hasMore: boolean = false;
-  remaining: number = 0;
+  hasMore = false;
+  remaining = 0;
 
 }

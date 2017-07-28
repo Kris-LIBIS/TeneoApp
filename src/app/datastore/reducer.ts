@@ -4,7 +4,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { compose } from '@ngrx/core/compose';
 import { environment } from '../../environments/environment';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
-import { authReducer, IAuthState, INITIAL_AUTH_STATE } from './authorization/reducer';
+import { authReducer } from './authorization/reducer';
 import { INITIAL_USERS_STATE, IUsersState } from './users/models';
 import { INITIAL_ORGS_STATE, IOrganizationsState } from './organizations/models';
 import { usersReducer } from './users/reducer';
@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { Observable, } from 'rxjs/Observable';
 import { IGuiState, INITIAL_GUI_STATE } from './gui/models';
 import { guiReducer } from './gui/reducer';
+import { IAuthState, INITIAL_AUTH_STATE } from './authorization/models';
 
 export interface IAppState {
   router: RouterState;
@@ -62,9 +63,19 @@ export function reducer(state: IAppState = INITIAL_STATE, action: any) {
 export function replaceOrAppend(array: any[], newObject: any) {
   const l = array.length + 1;
   const i = (_.findIndex(array, _.matchesProperty('id', newObject.id)) + l) % l;
-  return _.concat(_.slice(array, 0, i), [newObject],_.slice(array, i + 1));
+  return _.concat(_.slice(array, 0, i), [newObject], _.slice(array, i + 1));
 }
 
-export function latestFrom(observable: Observable<any>): Observable<any> {
-  return Observable.of(0).withLatestFrom(observable, (x,o) => o);
+export function latestFrom<T>(observable: Observable<T>): Observable<T> {
+  return Observable.of(0).withLatestFrom(observable, (x, o) => o);
+}
+
+export function getCurrentValue<T>(observable: Observable<T>): T {
+  let result: T;
+  const subscription = latestFrom(observable).subscribe(
+    (v: T) => result = v,
+    (err) => console.log('Error fetching current value from: ', observable),
+    () => subscription ? subscription.unsubscribe() : null
+    );
+  return result;
 }

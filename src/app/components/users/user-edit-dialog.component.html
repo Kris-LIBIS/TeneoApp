@@ -14,8 +14,13 @@
       <md-option value="admin">Administrator</md-option>
     </md-select>
 
+    <md-input-container class="input-field">
+      <input mdInput placeholder="password" title="Password"
+             formControlName="password">
+    </md-input-container>
+
     <teneo-select class="input-field"
-                  [control]="userForm.controls['organization_ids']"
+                  [control]="userForm.controls['organizations']"
                   [options]="data.options"
                   name="organizations"
                   multiple="true"

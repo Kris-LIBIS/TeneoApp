@@ -74,11 +74,11 @@
         <!--suppress HtmlUnknownTarget -->
         <img class="logo" src="assets/images/teneo.png" alt="Teneo App">
         <div>
-          <teneo-breadcrumb [bcMenu]="breadcrumbs | async"></teneo-breadcrumb>
+          <teneo-breadcrumb [bcMenu]="breadcrumb$ | async"></teneo-breadcrumb>
         </div>
         <div>
-          <button md-button *ngIf="!(userName | async)" (click)="logIn()">LOGIN</button>
-          <button md-button *ngIf="(userName | async)" [mdMenuTriggerFor]="usermenu">{{userName | async}}</button>
+          <button md-button *ngIf="(userName$ | async) == undefined" (click)="logIn()">LOGIN</button>
+          <button md-button *ngIf="(userName$ | async)" [mdMenuTriggerFor]="usermenu">{{userName$ | async}}</button>
           <md-menu #usermenu="mdMenu">
             <button md-menu-item>Info</button>
             <button md-menu-item (click)="logOut()">Log out</button>

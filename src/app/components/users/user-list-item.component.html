@@ -1,4 +1,4 @@
-<md-card class="teneo-card">
+<md-card class="teneo-card" [ngClass]="{clickable: selectMode}">
 
   <md-card-header class="header">
     <md-card-title>
@@ -13,13 +13,13 @@
 
   </md-card-content>
 
-  <md-card-actions class="actions" align="end">
+  <md-card-actions class="actions" align="end" *ngIf="!selectMode">
 
     <md-toolbar class="button-toolbar">
 
       <div class="button-left">
 
-        <button md-button color="primary" (click)="openOrganizations.next(organization)">
+        <button md-button color="primary" (click)="onSelect($event)">
           ORGANIZATIONS
         </button>
 
@@ -27,11 +27,11 @@
 
       <div class="button-right">
 
-        <button md-button color="warn" (click)="deleteUser.next(user)">
+        <button md-button color="warn" (click)="onDelete($event)">
           DELETE
         </button>
 
-        <button md-button color="primary" (click)="editUser.next(user)">
+        <button md-button color="primary" (click)="onEdit($event)">
           EDIT
         </button>
 

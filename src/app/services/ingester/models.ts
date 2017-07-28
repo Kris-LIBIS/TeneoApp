@@ -11,7 +11,7 @@ export class DbUser extends JsonApiModel {
   role: string;
 
   @Attribute()
-  organization_ids: Array<string>;
+  organizations: Array<string>;
 }
 
 @JsonApiModelConfig({
@@ -41,6 +41,9 @@ export class DbOrganization extends JsonApiModel {
   created_at: Date;
 
   @Attribute()
-  user_ids: Array<string>;
+  users: Array<string>;
+
+  @Attribute()
+  jobs: Array<string>;
 
 }

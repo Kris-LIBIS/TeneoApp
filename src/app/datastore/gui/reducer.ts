@@ -1,22 +1,37 @@
 import * as ud from 'updeep';
 
-import { GUI_MESSAGE_ADD, GUI_MESSAGE_CLEAR, GUI_SELECT_ORGANIZATION, GUI_SELECT_USER, GuiActions } from './actions';
+import {
+  GUI_FORGET_USER, GUI_MESSAGE_ADD, GUI_MESSAGE_CLEAR, GUI_SELECT_ORGANIZATION, GUI_SELECT_USER,
+  GuiActions
+} from './actions';
 import { AUTH_FAILURE, AUTH_SUCCESS, AuthActions } from '../authorization/actions';
 import {
   USERS_LIST_FAILURE, USER_LOAD_FAILURE, USER_SAVE_FAILURE, USER_DELETE_FAILURE,
   UsersListFailureAction, UserLoadFailureAction, UserSaveFailureAction, UserDeleteFailureAction,
 } from '../users/actions';
 import {
-  ORGS_LIST_FAILURE, ORG_LOAD_FAILURE, ORG_SAVE_FAILURE, ORG_DELETE_FAILURE,
-  OrganizationsListFailureAction, OrganizationLoadFailureAction, OrganizationSaveFailureAction, OrganizationDeleteFailureAction,
+  ORGS_LIST_FAILURE,
+  ORG_LOAD_FAILURE,
+  ORG_SAVE_FAILURE,
+  ORG_DELETE_FAILURE,
+  OrganizationsListFailureAction,
+  OrganizationLoadFailureAction,
+  OrganizationSaveFailureAction,
+  OrganizationDeleteFailureAction,
 } from '../organizations/actions';
-import { IGuiMessage, IGuiState, INITIAL_GUI_STATE } from './models';
-
+import { IGuiMessage, IGuiSelected, IGuiState, INITIAL_GUI_STATE } from './models';
 
 type GuiReducerActions =
-  GuiActions | AuthActions |
-  UsersListFailureAction | UserLoadFailureAction | UserSaveFailureAction | UserDeleteFailureAction |
-  OrganizationsListFailureAction | OrganizationLoadFailureAction | OrganizationSaveFailureAction | OrganizationDeleteFailureAction;
+  GuiActions
+  | AuthActions
+  | UsersListFailureAction
+  | UserLoadFailureAction
+  | UserSaveFailureAction
+  | UserDeleteFailureAction
+  | OrganizationsListFailureAction
+  | OrganizationLoadFailureAction
+  | OrganizationSaveFailureAction
+  | OrganizationDeleteFailureAction;
 
 export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiReducerActions) {
   const updateState = ud(ud._, state);
@@ -33,13 +48,19 @@ export function guiReducer(state: IGuiState = INITIAL_GUI_STATE, action: GuiRedu
 
     case GUI_SELECT_USER: {
       return updateState({
-        breadcrumbs: ud({user: action.payload}, state.breadcrumbs)
+        selected: {user: action.payload}
       });
+    }
+
+    case GUI_FORGET_USER: {
+      return updateState({
+        selected: {}
+      })
     }
 
     case GUI_SELECT_ORGANIZATION: {
       return updateState({
-        breadcrumbs: ud({organization: action.payload}, state.breadcrumbs)
+        selected: ud({organization: action.payload}, state.selected)
       })
     }
 

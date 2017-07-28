@@ -4,12 +4,12 @@ import { MdDialogRef, MD_DIALOG_DATA} from '@angular/material'
 @Component({
   selector: 'teneo-edit-dialog',
   template: `
-    <form novalidate [formGroup]="userForm">
+    <form novalidate [formGroup]="">
 
       <md-dialog-content>
 
         <ng-content></ng-content>
-        
+
       </md-dialog-content>
 
       <md-dialog-actions class="detail-actions" align="end">

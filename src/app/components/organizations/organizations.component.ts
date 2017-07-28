@@ -4,12 +4,14 @@ import { MdDialog, MdDialogConfig } from '@angular/material';
 import { IAppState, latestFrom } from '../../datastore/reducer';
 import { Store } from '@ngrx/store';
 import {
-  dbOrganization2organizationInfo, IOrganizationInfo, IOrganizationsState,
-  newOrganizationInfo
+  dbOrganization2organizationInfo, IOrganizationInfo, newOrganizationInfo
 } from '../../datastore/organizations/models';
-import { IUserInfo, IUsersState } from '../../datastore/users/models';
+import { IUserInfo } from '../../datastore/users/models';
 import {
-  OrganizationDeleteRequestAction, OrganizationLoadFailureAction, OrganizationLoadSuccessAction, OrganizationSaveRequestAction,
+  OrganizationDeleteRequestAction,
+  OrganizationLoadFailureAction,
+  OrganizationLoadSuccessAction,
+  OrganizationSaveRequestAction,
   OrganizationsListRequestAction,
 } from '../../datastore/organizations/actions';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog.component';
@@ -19,6 +21,9 @@ import { IngesterApiService } from '../../services/ingester/ingester-api.service
 import { DbOrganization } from '../../services/ingester/models';
 import * as _ from 'lodash';
 import { go } from '@ngrx/router-store';
+import { getSelectedUser } from '../../datastore/gui/selectors';
+import { getUsers } from '../../datastore/users/selectors';
+import { getOrganizations, getOrgLastUpdate } from '../../datastore/organizations/selectors';
 
 @Component({
   selector: 'teneo-organizations',
@@ -30,6 +35,8 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   organizations: Observable<IOrganizationInfo[]>;
   lastUpdate: Observable<number>;
   users: Observable<IUserInfo[]>;
+
+  filterText: Observable<string>;
 
   editDialog: MdDialogConfig = {
     disableClose: false,
@@ -56,10 +63,10 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>,
               private _api: IngesterApiService,
               public   dialog: MdDialog) {
-    const state$: Observable<IOrganizationsState> = this._store.select('organizations');
-    this.organizations = state$.map(state => state.organizations);
-    this.lastUpdate = state$.map(state => state.lastUpdate);
-    this.users = this._store.select('users').map((state: IUsersState) => state.users);
+    this.organizations = this._store.select(getOrganizations);
+    this.lastUpdate = this._store.select(getOrgLastUpdate);
+    this.users = this._store.select(getUsers);
+    this.filterText = this._store.select(getSelectedUser).map(user => user ? ' for ' + user.name : '');
   }
 
   ngOnInit() {
@@ -87,14 +94,19 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
       );
   }
 
-  editOrganization(org) {
-    this._api.getObject(DbOrganization, org.id)
+  editOrganization(organization) {
+    this._api.getObject(DbOrganization, organization.id)
       .subscribe((org) => {
           this._store.dispatch(new OrganizationLoadSuccessAction(org));
           this.editDialog.data.organization = dbOrganization2organizationInfo(org);
           this.openEditDialog(this.editDialog);
         },
-        (err) => this._store.dispatch(new OrganizationLoadFailureAction({error: {type: 'Error', message: err.toString()}}))
+        (err) => this._store.dispatch(new OrganizationLoadFailureAction({
+          error: {
+            type: 'Error',
+            message: err.toString()
+          }
+        }))
       );
   }
 

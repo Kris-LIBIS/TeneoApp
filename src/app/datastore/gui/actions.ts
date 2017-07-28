@@ -23,12 +23,25 @@ export class GuiValidRouteAction implements Action {
 }
 
 export const GUI_SELECT_USER = '[GUI] select user';
-export const GUI_SELECT_ORGANIZATION = '[GUI] select organization';
+export const GUI_FORGET_USER = '[GUI] forget user';
 
 export class GuiSelectUserAction implements Action {
   readonly type = GUI_SELECT_USER;
   constructor(public payload: IUserInfo) {}
 }
+
+export class GuiForgetUserAction implements Action {
+  readonly type = GUI_FORGET_USER;
+}
+
+export const GUI_SELECT_ORG_OPTIONS = '[GUI] select org options';
+
+export class GuiSelectOrgOptions implements Action {
+  readonly type = GUI_SELECT_ORG_OPTIONS;
+  constructor(public payload: IOrganizationInfo[]) {}
+}
+
+export const GUI_SELECT_ORGANIZATION = '[GUI] select organization';
 
 export class GuiSelectOrganizationAction implements Action {
   readonly type = GUI_SELECT_ORGANIZATION;
@@ -36,4 +49,4 @@ export class GuiSelectOrganizationAction implements Action {
 }
 
 export type GuiActions = GuiMessageAddAction | GuiMessageClearAction | GuiValidRouteAction |
-  GuiSelectUserAction | GuiSelectOrganizationAction;
+  GuiSelectUserAction | GuiForgetUserAction | GuiSelectOrgOptions | GuiSelectOrganizationAction;

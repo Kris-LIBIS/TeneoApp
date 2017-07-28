@@ -13,6 +13,6 @@ export class LoggedInGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._state.loggedIn();
+    return this._state.loggedIn;
   }
 }

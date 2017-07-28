@@ -16,6 +16,10 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog.c
 import { IngesterApiService } from '../../services/ingester/ingester-api.service';
 import { DbUser } from '../../services/ingester/models';
 import { OrganizationsListRequestAction } from '../../datastore/organizations/actions';
+import { GuiSelectUserAction } from "../../datastore/gui/actions";
+import { go } from "@ngrx/router-store";
+import { getOrganizations } from "../../datastore/organizations/selectors";
+import { getUserLastUpdate, getUsers } from "../../datastore/users/selectors";
 
 @Component({
   selector: 'teneo-users',
@@ -53,10 +57,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>,
               private _api: IngesterApiService,
               public   dialog: MdDialog) {
-    const state$: Observable<IUsersState> = this._store.select('users');
-    this.users = state$.map(state => state.users);
-    this.lastUpdate = state$.map(state => state.lastUpdate);
-    this.organizations = this._store.select('organizations').map((state: IOrganizationsState) => state.organizations);
+    this.users = this._store.select(getUsers);
+    this.lastUpdate = this._store.select(getUserLastUpdate);
+    this.organizations = this._store.select(getOrganizations);
   }
 
   ngOnInit() {
@@ -93,6 +96,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         },
         (err) => this._store.dispatch(new UserLoadFailureAction({error: {type: 'Error', message: err.toString()}}))
       );
+    return false;
   }
 
   newUser() {
@@ -116,5 +120,10 @@ export class UsersComponent implements OnInit, OnDestroy {
         },
         err => console.log(err)
       );
+  }
+
+  selectUser(user: IUserInfo) {
+    this._store.dispatch(new GuiSelectUserAction(user));
+    this._store.dispatch(go('/organizations'));
   }
 }

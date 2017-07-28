@@ -3,6 +3,7 @@ import { Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import * as jwt_decode from 'jwt-decode';
+import { IUserInfo } from '../../datastore/users/models';
 
 export interface IAuthorizationRequest {
   user: string;
@@ -11,11 +12,7 @@ export interface IAuthorizationRequest {
 
 export interface ITokenData {
   token?: string;
-  user?: {
-    id: string;
-    name: string;
-    role: string;
-  };
+  user?: IUserInfo;
   error?: {
     type: string;
     message: string;

@@ -26,7 +26,8 @@ export class UserEditDialogComponent implements OnInit {
       id: data.id,
       name: [data.name, Validators.required],
       role: [data.role, Validators.required],
-      organization_ids: [data.organization_ids],
+      password: [data.password],
+      organizations: [data.organizations],
     });
   }
 

@@ -7,19 +7,17 @@ export interface IGuiMessage {
   detail: string;
 }
 
+export interface IGuiSelected {
+  organization?: IOrganizationInfo;
+}
 export interface IGuiState {
   message: IGuiMessage;
-  breadcrumbs: {
-    user: IUserInfo,
-    organization: IOrganizationInfo,
-  }
+  selected: IGuiSelected,
+  selectOptions: any
 }
 
 export const INITIAL_GUI_STATE: IGuiState = {
   message: undefined,
-  breadcrumbs: {
-    user: undefined,
-    organization: undefined,
-  }
+  selected: {},
+  selectOptions: {}
 };
-

@@ -1,4 +1,5 @@
 import { DbOrganization } from '../../services/ingester/models';
+import * as _ from "lodash";
 
 export interface IProducerInfo {
   id: string,
@@ -13,7 +14,9 @@ export interface IOrganizationInfo {
   material_flow?: Object;
   ingest_dir?: string;
   producer?: IProducerInfo;
-  user_ids?: string[];
+  users?: string[];
+  jobs?: string[];
+  links?: any;
 }
 
 export function newOrganizationInfo(): IOrganizationInfo {
@@ -25,6 +28,7 @@ export function newOrganizationInfo(): IOrganizationInfo {
 }
 
 export const ORGS_LIST_FIELDS = 'id,name,code';
+export const ORGS_SELECT_FIELDS = 'id,name,users,jobs';
 
 export interface IOrganizationsState {
   organizations: IOrganizationInfo[];
@@ -55,8 +59,15 @@ export function dbOrganization2organizationInfo(org: DbOrganization): IOrganizat
     result.producer.agent = org.producer.agent;
     result.producer.password = org.producer.password;
   }
-  if (org.user_ids) {
-    result.user_ids = org.user_ids;
+  if (org.users) {
+    result.users = org.users;
+  }
+  if (org.jobs) {
+    result.jobs = org.jobs;
+  }
+  if (org.links) {
+    result.links = {};
+    _.forIn(org.links, (value, key) => result.links[key] = value._href);
   }
   return result;
 }

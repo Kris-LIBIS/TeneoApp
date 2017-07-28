@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IPageInfo } from '../../datastore/models';
 
 @Component({
   selector: 'teneo-list',
@@ -46,8 +45,4 @@ export class ListComponent {
   @Input() lastUpdate: number;
   @Output() newObject: EventEmitter<any> = new EventEmitter();
   @Output() reload: EventEmitter<any> = new EventEmitter();
-
-  hasMore: boolean = false;
-  remaining: number = 0;
-
 }

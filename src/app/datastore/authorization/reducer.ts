@@ -1,21 +1,8 @@
-import { AUTH_FAILURE, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS, AuthActions } from './actions';
 
 import * as ud from 'updeep';
 import { ITokenData } from '../../services/authorization/authorization.service';
-
-export interface IAuthState {
-  authorized: boolean;
-  userName: string;
-  jwtToken: string;
-  updating: boolean;
-}
-
-export const INITIAL_AUTH_STATE: IAuthState = {
-  authorized: false,
-  userName: undefined,
-  jwtToken: undefined,
-  updating: false
-};
+import { IAuthState, INITIAL_AUTH_STATE } from './models';
+import { AUTH_FAILURE, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS, AuthActions } from './actions';
 
 export function authReducer(state: IAuthState = ud.freeze(INITIAL_AUTH_STATE), action: AuthActions) {
   const updateState = ud(ud._, state);

@@ -11,8 +11,10 @@ import { AuthLogoutAction } from './datastore/authorization/actions';
 import { LoginDialogComponent } from './components/login/login-dialog.component';
 import { StateService } from './services/state/state.service';
 import { Subscription } from 'rxjs/Subscription';
-import { go } from "@ngrx/router-store";
-import { GuiValidRouteAction } from "./datastore/gui/actions";
+import { GuiValidRouteAction } from './datastore/gui/actions';
+import { UsersListRequestAction } from './datastore/users/actions';
+import { OrganizationsListRequestAction } from './datastore/organizations/actions';
+import { getBreadcrumbModel } from './datastore/gui/selectors';
 
 @Component({
   moduleId: module.id,
@@ -24,10 +26,10 @@ export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class.teneo-dark-theme') dark = false;
   @HostBinding('class.teneo-app-theme') light = true;
 
-  userName: Observable<string>;
+  userName$: Observable<string>;
   msgSubscription: Subscription;
 
-  breadcrumbs: Observable<{}>;
+  breadcrumb$: Observable<{}>;
 
   constructor(
     private translate: TranslateService,
@@ -37,7 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _element: ElementRef,
     public dialog: MdDialog
     ) {
-    this.userName = this._state.currentUserName$;
+    this.userName$ = this._state.currentUserName$;
+    this.breadcrumb$ = this._store.select(getBreadcrumbModel);
   }
 
   ngOnInit() {
@@ -51,6 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
           this.openSnackbar(msg.detail || msg.summary, msg.severity)
         }
       });
+    this._store.dispatch(new UsersListRequestAction({force: false}));
+    this._store.dispatch(new OrganizationsListRequestAction({force: false}));
     this._store.dispatch(new GuiValidRouteAction());
   }
 

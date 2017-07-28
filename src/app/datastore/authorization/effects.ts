@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { AuthorizationService, ITokenData } from '../../services/authorization/authorization.service';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { AUTH_FAILURE, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS, AuthFailureAction, AuthSuccessAction } from './actions';
 import { of } from 'rxjs/observable/of';
 import { go } from '@ngrx/router-store'
+import { IAppState } from '../reducer';
+import { GuiForgetUserAction, GuiSelectUserAction } from "../gui/actions";
 
 @Injectable()
 export class AuthEffects {
-  constructor(private action$: Actions, private api: AuthorizationService) {}
+  constructor(
+    private action$: Actions,
+    private _store: Store<IAppState>,
+    private api: AuthorizationService) {}
 
   // noinspection JSUnusedGlobalSymbols
   @Effect()
@@ -22,13 +27,19 @@ export class AuthEffects {
 
   // noinspection JSUnusedGlobalSymbols
   @Effect()
-  authSuccess$: Observable<Action> = this.action$.ofType(AUTH_SUCCESS).map(() => go('/dashboard'));
+  authSuccess$: Observable<Action> = this.action$.ofType(AUTH_SUCCESS)
+    .do((action) => this._store.dispatch(new GuiSelectUserAction(action.payload.user)))
+    .map(() => go('/dashboard'));
 
   // noinspection JSUnusedGlobalSymbols
   @Effect()
-  authFailure$: Observable<Action> = this.action$.ofType(AUTH_FAILURE).map(() => go('/home'));
+  authFailure$: Observable<Action> = this.action$.ofType(AUTH_FAILURE)
+    .do((action) => this._store.dispatch(new GuiForgetUserAction()))
+    .map(() => go('/home'));
 
   @Effect()
-  logout$: Observable<Action> = this.action$.ofType(AUTH_LOGOUT).map(() => go('/home'));
+  logout$: Observable<Action> = this.action$.ofType(AUTH_LOGOUT)
+    .do((action) => this._store.dispatch(new GuiForgetUserAction()))
+    .map(() => go('/home'));
 
 }

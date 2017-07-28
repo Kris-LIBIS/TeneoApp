@@ -22,7 +22,7 @@ export class SelectComponent {
 
   @Input() options: any[];
   @Input() control: FormControl;
-  @Input() multiple: boolean = false;
+  @Input() multiple = false;
   @Input() name: string;
 
   constructor() {

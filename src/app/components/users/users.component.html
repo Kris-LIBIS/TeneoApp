@@ -12,8 +12,10 @@
       fxFlex.xl="25" fxFlex.lg="33" fxFlex.md="50" fxFlex.lt-md="100"
       *ngFor="let user of (users | async)"
       [user]="user"
+      [selectMode]="false"
       (editUser)="editUser($event)"
       (deleteUser)="deleteUser($event)"
+      (selectedUser)="selectUser($event)"
     ></teneo-user-list-item>
 
   </div>
